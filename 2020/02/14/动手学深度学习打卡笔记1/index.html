@@ -53,15 +53,15 @@
 <meta property="og:site_name" content="Sparkmon.AI">
 <meta property="og:description" content="这是Datawhale和伯禹学院联合和鲸平台组织的”动手学深度学习“公益学习活动打卡笔记。使用的DIve into DL是pytorch版本，中文网页版链接：https:&#x2F;&#x2F;tangshusen.me&#x2F;Dive-into-DL-PyTorch&#x2F;#&#x2F;  数据基础: 张量和梯度1.张量Tensor（张量）可以看成是一个多维数组。标量是0维张量，向量是1维张量，矩阵则是2维张量。在深度学习中涉及到大量">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="e:%5C%E2%98%85%5Cgithub%5CBlog%5Csource_posts%5C%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/00%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0ReLU.png">
-<meta property="og:image" content="e:%5C%E2%98%85%5Cgithub%5CBlog%5Csource_posts%5C%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/00%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0sigmoid.png">
-<meta property="og:image" content="e:%5C%E2%98%85%5Cgithub%5CBlog%5Csource_posts%5C%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/00%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0tanh.png">
+<meta property="og:image" content="http://yoursite.com/2020/02/14/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%89%93%E5%8D%A1%E7%AC%94%E8%AE%B01/E:%5C%E2%98%85%5Cgithub%5CBlog%5Csource_posts%5C%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%5C00%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0ReLU.png">
+<meta property="og:image" content="http://yoursite.com/2020/02/14/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%89%93%E5%8D%A1%E7%AC%94%E8%AE%B01/E:%5C%E2%98%85%5Cgithub%5CBlog%5Csource_posts%5C%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%5C00%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0sigmoid.png">
+<meta property="og:image" content="http://yoursite.com/2020/02/14/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%89%93%E5%8D%A1%E7%AC%94%E8%AE%B01/E:%5C%E2%98%85%5Cgithub%5CBlog%5Csource_posts%5C%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%5C00%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0tanh.png">
 <meta property="article:published_time" content="2020-02-14T08:09:05.000Z">
-<meta property="article:modified_time" content="2020-02-14T08:18:07.338Z">
+<meta property="article:modified_time" content="2020-02-14T09:06:07.406Z">
 <meta property="article:author" content="sparkmon">
 <meta property="article:tag" content="深度学习 Datawhale">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="e:%5C%E2%98%85%5Cgithub%5CBlog%5Csource_posts%5C%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/00%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0ReLU.png">
+<meta name="twitter:image" content="http://yoursite.com/2020/02/14/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%89%93%E5%8D%A1%E7%AC%94%E8%AE%B01/E:%5C%E2%98%85%5Cgithub%5CBlog%5Csource_posts%5C%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%5C00%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0ReLU.png">
 
 <link rel="canonical" href="http://yoursite.com/2020/02/14/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%89%93%E5%8D%A1%E7%AC%94%E8%AE%B01/">
 
@@ -198,7 +198,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-02-14 16:09:05 / Modified: 16:18:07" itemprop="dateCreated datePublished" datetime="2020-02-14T16:09:05+08:00">2020-02-14</time>
+              <time title="Created: 2020-02-14 16:09:05 / Modified: 17:06:07" itemprop="dateCreated datePublished" datetime="2020-02-14T16:09:05+08:00">2020-02-14</time>
             </span>
 
           
@@ -229,9 +229,9 @@
 <p>softmax与线性回归一样，将输入特征与权重做线性叠加，但是它的输出值个数等于标签里的类别数。为了使输出的离散值具有直观意义且可以衡量，在这里使用softmax运算符。它用指数归一化的形式使输出值转化为值为正且和为1的概率分布。<br>与逻辑回归采用相同的损失函数——交叉熵损失函数。</p>
 <h5 id="3-多层感知机"><a href="#3-多层感知机" class="headerlink" title="3.多层感知机"></a>3.多层感知机</h5><p>多层感知机相较于线性模型添加了隐藏层，隐藏层和输出层都是全连接层。同时，隐藏层也设置了权重和偏差，将它的表达式带入输出后可以轻易发现联立后的式子依然是一个单层神经网络（仿射变换）。<br>由此，这里可以引入非线性函数进行变换之后，再作为下一个全连接层的输入。这个非线性函数被称为激活函数（activation function)。<br>下面是几种常用的激活函数：</p>
 <ul>
-<li>ReLU<br><img src="E:%5C%E2%98%85%5Cgithub%5CBlog%5Csource_posts%5C%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/00%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0ReLU.png" alt="ReLU"></li>
-<li>Sigmoid函数<br><img src="E:%5C%E2%98%85%5Cgithub%5CBlog%5Csource_posts%5C%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/00%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0sigmoid.png" alt="sigmoid"></li>
-<li>tanh函数（一般用在生成对抗网络和循环神经网络）<br><img src="E:%5C%E2%98%85%5Cgithub%5CBlog%5Csource_posts%5C%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/00%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0tanh.png" alt="tanh"><br>ReLu函数是一个通用的激活函数，体现在<br>1）在神经网络层数较多的时候，最好使用ReLu函数，ReLu函数较简单计算量少，而sigmoid和tanh函数计算量则大很多。例如卷积神经网络和全连接神经网络大都使用ReLU。<br>2）由于梯度消失导致训练收敛速度较慢时，要避免使用sigmoid和tanh函数。<br>所以，在选择激活函数的时候可以先选用ReLu函数，如果效果不理想再尝试其他激活函数。<br>但是，需要注意的是ReLU函数只能在隐藏层中使用。用于分类器时，sigmoid函数及其组合通常效果更好。</li>
+<li>ReLU<br><img src="/2020/02/14/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%89%93%E5%8D%A1%E7%AC%94%E8%AE%B01/E:%5C%E2%98%85%5Cgithub%5CBlog%5Csource_posts%5C%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%5C00%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0ReLU.png" alt="ReLU"></li>
+<li>Sigmoid函数<br><img src="/2020/02/14/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%89%93%E5%8D%A1%E7%AC%94%E8%AE%B01/E:%5C%E2%98%85%5Cgithub%5CBlog%5Csource_posts%5C%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%5C00%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0sigmoid.png" alt="sigmoid"></li>
+<li>tanh函数（一般用在生成对抗网络和循环神经网络）<br><img src="/2020/02/14/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%89%93%E5%8D%A1%E7%AC%94%E8%AE%B01/E:%5C%E2%98%85%5Cgithub%5CBlog%5Csource_posts%5C%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%5C00%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0tanh.png" alt="tanh"><br>ReLu函数是一个通用的激活函数，体现在<br>1）在神经网络层数较多的时候，最好使用ReLu函数，ReLu函数较简单计算量少，而sigmoid和tanh函数计算量则大很多。例如卷积神经网络和全连接神经网络大都使用ReLU。<br>2）由于梯度消失导致训练收敛速度较慢时，要避免使用sigmoid和tanh函数。<br>所以，在选择激活函数的时候可以先选用ReLu函数，如果效果不理想再尝试其他激活函数。<br>但是，需要注意的是ReLU函数只能在隐藏层中使用。用于分类器时，sigmoid函数及其组合通常效果更好。</li>
 </ul>
 <h6 id="过拟合"><a href="#过拟合" class="headerlink" title="过拟合"></a>过拟合</h6><blockquote>
 <p>过拟合指训练误差较低但是泛化误差较大，且二者相差较大的现象。</p>
