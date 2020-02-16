@@ -165,6 +165,129 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/15/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%89%93%E5%8D%A1%E7%AC%94%E8%AE%B02/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="sparkmon">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sparkmon.AI">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/02/15/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%89%93%E5%8D%A1%E7%AC%94%E8%AE%B02/" class="post-title-link" itemprop="url">动手学深度学习打卡笔记2</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-02-15 10:24:10" itemprop="dateCreated datePublished" datetime="2020-02-15T10:24:10+08:00">2020-02-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-16 17:45:23" itemprop="dateModified" datetime="2020-02-16T17:45:23+08:00">2020-02-16</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>这是Datawhale和伯禹学院联合和鲸平台组织的”动手学深度学习“公益学习活动打卡笔记，同时也整理进了一些我平时学习的内容。使用的DIve into DL是pytorch版本，中文网页版链接：<a href="https://tangshusen.me/Dive-into-DL-PyTorch/#/" target="_blank" rel="noopener">https://tangshusen.me/Dive-into-DL-PyTorch/#/</a></p>
+</blockquote>
+<h2 id="卷积神经网络Convolutional-Neural-Network"><a href="#卷积神经网络Convolutional-Neural-Network" class="headerlink" title="卷积神经网络Convolutional Neural Network"></a>卷积神经网络Convolutional Neural Network</h2><h3 id="卷积神经网络基本组成"><a href="#卷积神经网络基本组成" class="headerlink" title="卷积神经网络基本组成"></a>卷积神经网络基本组成</h3><p>CNN 由于被应用在 ImageNet 等竞赛中而广受欢迎，最近也被应用在自然语言处理和语音识别中。CNN由三部分组成，卷积层、池化层和全连接层。具有三种特性：权值共享、局部连接和下采样（subsampling）。<br> <img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUciCCOnIrX2S2rEozqydayPMYMSWmPA1eWKCLZttD8MvTq8QM2s*nTVgDYWnIgskS4haZnZuZpmaz8YTpOlHwEM!/b&bo=bgbmAQAAAAADB60!&rf=viewer_4" alt="Image"></p>
+<h4 id="卷积层"><a href="#卷积层" class="headerlink" title="卷积层"></a>卷积层</h4><blockquote>
+<p>在pytorch中使用<code>nn.Conv2d</code>类来实现二维卷积层</p>
+</blockquote>
+<h6 id="卷积运算"><a href="#卷积运算" class="headerlink" title="卷积运算"></a>卷积运算</h6><p>CNN基于二维互相关运算（cross-correlation）。二维互相关运算的输入是一个二维输入数组和一个二维核（kernel）数组，输出也是一个二维数组，其中核数组通常称为卷积核或过滤器（filter）。下图即为卷积核在卷积时进行的运算。输入Image（即为feature map），黄色矩阵为卷积核（覆盖部分为局部感受野），相乘累加后输出Convolved Frature。<br> <img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUX.xlQgYFMXlQoWTZQw1PDYEuZ3rW.ChtwvrzVBHI8dPnjZjy4PSqFVkB.FDOlFRWhnQV4DMIj5jW8pOEN7uY6k!/b&bo=DgKAAQAAAAACF74!&rf=viewer_4" alt="gif"></p>
+<h6 id="卷积层的超参数"><a href="#卷积层的超参数" class="headerlink" title="卷积层的超参数"></a>卷积层的超参数</h6><ul>
+<li><p>填充Padding<br>填充（padding）是指在输入高和宽的两侧填充一列或多列元素（通常是0元素）。计算如下图所示。<br><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUftAkCBTVIDByO1UjPAtKH5MFQfTkf5NBSHCBB82ivjlP5dIayCBtbse9J5bvFZI0s10CLsrb4xiZdw9wvoDg2U!/b&bo=HAOYAgAAAAARB7U!&rf=viewer_4" alt="pad"></p>
+</li>
+<li><p>步幅Stride<br>在互相关运算中，卷积核在输入数组上滑动，每次滑动的行数与列数即是步幅。</p>
+<h6 id="多通道卷积"><a href="#多通道卷积" class="headerlink" title="多通道卷积"></a>多通道卷积</h6><p>当遇到高维度的数据时（例如彩色图片具有RGB三个通道Channel），输入和输出则为三维数组。例如，当输入具有相当丰富的特征时，需要有多个不同的核数组来提取的是不同的特征。</p>
+</li>
+</ul>
+<h4 id="池化层"><a href="#池化层" class="headerlink" title="池化层"></a>池化层</h4><blockquote>
+<p>在pytorch中使用<code>nn.MaxPool2d</code>实现最大池化层</p>
+</blockquote>
+<p>池化层主要用于缓解卷积层对位置的过度敏感性。同卷积层一样，池化层每次对输入数据的一个固定形状窗口（又称池化窗口）中的元素计算输出，池化层直接计算池化窗口内元素的最大值或者平均值，该运算也分别叫做最大池化或平均池化。<br> <img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUfxetpWTTzOB.HU5Yw9xkZYQ.jsP6DrtL09*.PoF6OERJubxR3U0DeeWMiSuBap51HVuvXmDw2SqAz5gTm8vXgU!/b&bo=KALzAQAAAAARB.g!&rf=viewer_4" alt="pooling"><br>池化的作用：减少参数量、防止过拟合、具有平移不变性（也是CNN具有平移不变性的原因）。</p>
+<h4 id="CNN和全连接层（fully-connected-layers，FC）的简单比较"><a href="#CNN和全连接层（fully-connected-layers，FC）的简单比较" class="headerlink" title="CNN和全连接层（fully connected layers，FC）的简单比较"></a>CNN和全连接层（fully connected layers，FC）的简单比较</h4><p>使用全连接层的局限性：</p>
+<ul>
+<li>全连接层把图像展平成一个向量，在输入图像上相邻的元素可能因为展平操作不再相邻，故它们构成的模式可能难以被模型识别。</li>
+<li>对于大尺寸的输入图像，使用全连接层容易导致模型过大。</li>
+</ul>
+<p>与全连接层相比，CNN主要有两个优势：</p>
+<ul>
+<li>卷积层保留输入形状，且具有提取局部信息的能力。</li>
+<li>卷积层通过滑动窗口将同一卷积核与不同位置的输入重复计算，从而避免参数尺寸过大。</li>
+</ul>
+<h3 id="CNN衍生模型发展"><a href="#CNN衍生模型发展" class="headerlink" title="CNN衍生模型发展"></a>CNN衍生模型发展</h3><p> <img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUZVpRDDahd48dDrt7CJv.Y8TKFJKwTMYYk6AI7qvDWWeAdxnT8obnjFqHCpsRy3oVJ7RiJZrY96IwBjY8k0exvc!/b&bo=OQafAwAAAAADB4E!&rf=viewer_4" alt="model"></p>
+<center>图：ImageNet竞赛模型的错误率逐年降低</center>
+#### LeNet
+LeNet-5诞生于 1994 年，由Yann LeCun等人提出，是最早的卷积神经网络之一，为之后的CNN发展奠定了基础。
+
+<p><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUUDuIi9DNSR22HHxh95jzA0tlJfF5GzRJeas7b4iVQeNPj0WFCmUFgMe.IDT*k1ciL5fd7RuMDPbnYqwkUbdd0k!/b&bo=UgPrAAAAAAADF4g!&rf=viewer_4" alt="lenet"></p>
+<p>LeNet-5 的架构基于这样的观点：（尤其是）图像的特征分布在整张图像上，以及带有可学习参数的卷积是一种用少量参数在多个位置上提取相似特征的有效方式。<br>由于LeNet在最后使用全连接层，导致计算参数过多，在那时候，没有 GPU 帮助训练，只用CPU很难完成全部的训练。这导致模型最后采用的参数少，神经网络的层数也不多。除了算力以外，当时还有一个很大的限制就是算法领域的研究不够深入，还没有深入研究参数初始化和⾮凸优化算法等诸多领域。</p>
+<h4 id="AlexNet"><a href="#AlexNet" class="headerlink" title="AlexNet"></a>AlexNet</h4><p>LeNet虽然在1994年被提出，但是在很长一段时间由于算力的限制而没有很好的发挥作用，直到2012年Alex在ImageNet竞赛中提出深度卷积神经网络模型。<br><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUStHm7xX6WrwMB3xbeQ8pXKEdEu6DYTzQg2V9k5r*KcZfEV5Box2aYbEwL2g0PteM2aDP8jpWBOwhUjiAazGBqM!/b&bo=OAR0AQAAAAARB3k!&rf=viewer_4" alt="alaxnet"></p>
+<p>AlexNet在LeNet的基础上变得更宽更深了，并且使用了数据增强（Data Augmentation），增大了模型的泛化能力。单纯从网络上来看，它和LeNet的区别体现在：</p>
+<ul>
+<li>原始数据集的通道数不同。LeNet采用1个通道的灰度图，而AlexNet的数据集是三通道的彩色图像，图像大小也比LeNet大十倍左右。</li>
+<li>AlaxNet的第一层卷积层保持参数数量且之后的池化层均采用最大池化突出图片特征，增加数据的稀疏性。</li>
+<li>第一次使用ReLU激活函数，避免了使用Sigmoid造成的梯度消失现象。<br>AlaxNet采用2个GPU进行训练，在数据处理上也有了更大的能力。当然这只是基础的区别，更详细的算法上的优化有待参考原始论文继续学习。</li>
+</ul>
+<h4 id="VGGNet"><a href="#VGGNet" class="headerlink" title="VGGNet"></a>VGGNet</h4><p>AlaxNet在模型结果上有了很大的优化，但是没有给后续的实践者一个可以参照的模型或范式继续进行研究。VGG则可以通过重复使⽤简单的基础块（VGG-block）来构建深度模型。<br><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUT9pLaF9n3ByNsVQGLP2idlYzGz.7AGlmq9eUgEEeFTSzZRDJGi2ih6tdcID8tGmmstJtaWxyklIQjVd3ibn6uM!/b&bo=hAP7AQAAAAARB00!&rf=viewer_4" alt="vggnet"><br>从上图可以看到VGG模型通过增加深度有效地提升性能，并且VGG16的block只有3x3卷积与2x2池化，卷积层保持输入的高和宽不变，而池化层则对其减半。我们可以根据实际样本量的大小选择需要的block比例来进行训练，防止参数过多、样本过少造成的过拟合。</p>
+<h4 id="NiN"><a href="#NiN" class="headerlink" title="NiN"></a>NiN</h4><p>之前三种网络（LeNet、AlexNet和VGG）都是先以由卷积层构成的模块充分抽取空间特征，再以由全连接层构成的模块来输出分类结果。NiN（Network in Network）则是通过串联多个由卷积层和“全连接”层构成的小⽹络来构建⼀个深层⽹络。该设计后来为 ResNet 和 Inception 等网络模型所借鉴。<br><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvURcj*99A*ngvC16xALB3gb.X3DYo9Dlesb8Tx6gK7bqTgoF60NtDiEZNwft4SOcCNX8oCU3CLEW3tjpRXQd8.Ng!/b&bo=eQOTAgAAAAADB8k!&rf=viewer_4" alt="nin"></p>
+<ul>
+<li>NiN将VGG-block进行了修改，使其变成第二、三层为1×1卷积核卷积的三层卷积层。</li>
+<li>同时，取消了最后的全连接隐藏层和输出层，改用全局平均池化层来代替（通过在最后一个卷积层改变通道数，使其等于特征数）。</li>
+</ul>
+<p>在这里值得一提的是1×1卷积核的作用，如下：</p>
+<ul>
+<li>放缩通道数，进行卷积核通道数进行降维和升维。</li>
+<li>1×1卷积核的卷积过程相当于全连接层的计算过程，并且还加入了非线性激活函数，从而可以增加网络的非线性。</li>
+<li>减少了计算参数。</li>
+</ul>
+<h4 id="GoogLeNet"><a href="#GoogLeNet" class="headerlink" title="GoogLeNet"></a>GoogLeNet</h4><p>像VGG这样扩大网络规模或增大训练数据集来提高模型的泛化能力可能并不是一个很好的方法，这会带来两个问题：一是网络参数量的急剧增加会导致网络陷入过拟合，尤其是对小数据集而言；二是消耗巨大的计算资源。GoogLeNet是在ImageNet竞赛时提出的，它考虑到VGG的缺点和NiN全连接层的作用，提出了Inception模型。<br><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUUz1m24AoVjYERML6NBWMWi6WNcF0rt2TjXjpc8X0T7g7QDoXAMQQRBbQ8bIEfhpf5Gk9pEDvQtOhuZUbRolQbg!/b&bo=vQTAAQAAAAADB1o!&rf=viewer_4" alt="googlenet"></p>
+<p>Inception块相当于⼀个有4条线路的自网络，它通过不同窗口形状的卷积层和最⼤池化层来并⾏抽取信息，并使⽤1×1卷积层减少通道数从而降低模型复杂度。在此模块的基础上，GoogLeNet通过使用22层神经网络和AlexNet一半的参数量完成了自己的模型。<br><img src="http://photogz.photo.store.qq.com/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUde3FuvNUqhQYakblRqp0MT2DNn5i3U45L56ZD5fGEH*KDHl6*AUvRoxMY4tnIWt9UEcuLnPGJlX.CTdhofY4GY!/b&bo=uAP0AAAAAAADF30!&rf=viewer_4" alt="googlenet"></p>
+<h4 id="To-be-continue"><a href="#To-be-continue" class="headerlink" title="To be continue"></a>To be continue</h4><p>这之后，还陆续出现了ResNet和Inception-V4等一些列新模型，等之后几篇再更新。</p>
+<p><em>本次笔记还参考了：<a href="https://mp.weixin.qq.com/s?__biz=MzI0ODcxODk5OA==&mid=2247512166&idx=1&sn=9591cf280543ec1de42844d6e76af723&chksm=e99e839fdee90a89955ad00d265d132295a103996e7880f4a883a244742087642f445d5c05e1&scene=27#wechat_redirect" target="_blank" rel="noopener">从LeNet到GoogLeNet：逐层详解，看卷积神经网络的进化</a></em></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/14/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%89%93%E5%8D%A1%E7%AC%94%E8%AE%B01/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -196,7 +319,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-15 10:01:07" itemprop="dateModified" datetime="2020-02-15T10:01:07+08:00">2020-02-15</time>
+                <time title="Modified: 2020-02-15 10:12:07" itemprop="dateModified" datetime="2020-02-15T10:12:07+08:00">2020-02-15</time>
               </span>
 
           
@@ -482,7 +605,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
