@@ -65,9 +65,9 @@
 <meta property="og:image" content="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUUz1m24AoVjYERML6NBWMWi6WNcF0rt2TjXjpc8X0T7g7QDoXAMQQRBbQ8bIEfhpf5Gk9pEDvQtOhuZUbRolQbg!/b&bo=vQTAAQAAAAADB1o!&rf=viewer_4">
 <meta property="og:image" content="http://photogz.photo.store.qq.com/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUde3FuvNUqhQYakblRqp0MT2DNn5i3U45L56ZD5fGEH*KDHl6*AUvRoxMY4tnIWt9UEcuLnPGJlX.CTdhofY4GY!/b&bo=uAP0AAAAAAADF30!&rf=viewer_4">
 <meta property="article:published_time" content="2020-02-15T02:24:10.000Z">
-<meta property="article:modified_time" content="2020-02-16T09:56:53.329Z">
+<meta property="article:modified_time" content="2020-02-17T11:55:19.932Z">
 <meta property="article:author" content="sparkmon">
-<meta property="article:tag" content="深度学习 Datawhale">
+<meta property="article:tag" content="深度学习 Datawhale 计算机视觉">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUciCCOnIrX2S2rEozqydayPMYMSWmPA1eWKCLZttD8MvTq8QM2s*nTVgDYWnIgskS4haZnZuZpmaz8YTpOlHwEM!/b&bo=bgbmAQAAAAADB60!&rf=viewer_4">
 
@@ -212,7 +212,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-16 17:56:53" itemprop="dateModified" datetime="2020-02-16T17:56:53+08:00">2020-02-16</time>
+                <time title="Modified: 2020-02-17 19:55:19" itemprop="dateModified" datetime="2020-02-17T19:55:19+08:00">2020-02-17</time>
               </span>
 
           
@@ -229,7 +229,7 @@
         <blockquote>
 <p>这是Datawhale和伯禹学院联合和鲸平台组织的”动手学深度学习“公益学习活动打卡笔记，同时也整理进了一些我平时学习的内容。使用的DIve into DL是pytorch版本，中文网页版链接：<a href="https://tangshusen.me/Dive-into-DL-PyTorch/#/" target="_blank" rel="noopener">https://tangshusen.me/Dive-into-DL-PyTorch/#/</a></p>
 </blockquote>
-<h2 id="卷积神经网络Convolutional-Neural-Network"><a href="#卷积神经网络Convolutional-Neural-Network" class="headerlink" title="卷积神经网络Convolutional Neural Network"></a>卷积神经网络Convolutional Neural Network</h2><h3 id="卷积神经网络基本组成"><a href="#卷积神经网络基本组成" class="headerlink" title="卷积神经网络基本组成"></a>卷积神经网络基本组成</h3><p>CNN 由于被应用在 ImageNet 等竞赛中而广受欢迎，最近也被应用在自然语言处理和语音识别中。CNN由三部分组成，卷积层、池化层和全连接层。具有三种特性：权值共享、局部连接和下采样（subsampling）。<br> <img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUciCCOnIrX2S2rEozqydayPMYMSWmPA1eWKCLZttD8MvTq8QM2s*nTVgDYWnIgskS4haZnZuZpmaz8YTpOlHwEM!/b&bo=bgbmAQAAAAADB60!&rf=viewer_4" alt="Image"></p>
+<h2 id="卷积神经网络Convolutional-Neural-Network"><a href="#卷积神经网络Convolutional-Neural-Network" class="headerlink" title="卷积神经网络Convolutional Neural Network"></a>卷积神经网络Convolutional Neural Network</h2><h3 id="卷积神经网络基本组成"><a href="#卷积神经网络基本组成" class="headerlink" title="卷积神经网络基本组成"></a>卷积神经网络基本组成</h3><p>CNN 由于被应用在 ImageNet 等竞赛中而广受欢迎，最近也被应用在自然语言处理和语音识别中。CNN由三部分组成，卷积层、池化层和全连接层。具有三种特性：全值共享、局部连接和下采样（subsampling）。<br> <img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUciCCOnIrX2S2rEozqydayPMYMSWmPA1eWKCLZttD8MvTq8QM2s*nTVgDYWnIgskS4haZnZuZpmaz8YTpOlHwEM!/b&bo=bgbmAQAAAAADB60!&rf=viewer_4" alt="Image"></p>
 <h4 id="卷积层"><a href="#卷积层" class="headerlink" title="卷积层"></a>卷积层</h4><blockquote>
 <p>在pytorch中使用<code>nn.Conv2d</code>类来实现二维卷积层</p>
 </blockquote>
@@ -238,9 +238,9 @@
 <li><p>填充Padding<br>填充（padding）是指在输入高和宽的两侧填充一列或多列元素（通常是0元素）。计算如下图所示。<br><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUftAkCBTVIDByO1UjPAtKH5MFQfTkf5NBSHCBB82ivjlP5dIayCBtbse9J5bvFZI0s10CLsrb4xiZdw9wvoDg2U!/b&bo=HAOYAgAAAAARB7U!&rf=viewer_4" alt="pad"></p>
 </li>
 <li><p>步幅Stride<br>在互相关运算中，卷积核在输入数组上滑动，每次滑动的行数与列数即是步幅。</p>
-<h6 id="多通道卷积"><a href="#多通道卷积" class="headerlink" title="多通道卷积"></a>多通道卷积</h6><p>当遇到高维度的数据时（例如彩色图片具有RGB三个通道Channel），输入和输出则为三维数组。例如，当输入具有相当丰富的特征时，需要有多个不同的核数组来提取的是不同的特征。</p>
 </li>
 </ul>
+<h6 id="多通道卷积"><a href="#多通道卷积" class="headerlink" title="多通道卷积"></a>多通道卷积</h6><p>当遇到高维度的数据时（例如彩色图片具有RGB三个通道Channel），输入和输出则为三维数组。例如，当输入具有相当丰富的特征时，需要有多个不同的核数组来提取的是不同的特征。</p>
 <h4 id="池化层"><a href="#池化层" class="headerlink" title="池化层"></a>池化层</h4><blockquote>
 <p>在pytorch中使用<code>nn.MaxPool2d</code>实现最大池化层</p>
 </blockquote>
@@ -257,8 +257,9 @@
 </ul>
 <h3 id="CNN衍生模型发展"><a href="#CNN衍生模型发展" class="headerlink" title="CNN衍生模型发展"></a>CNN衍生模型发展</h3><p> <img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUZVpRDDahd48dDrt7CJv.Y8TKFJKwTMYYk6AI7qvDWWeAdxnT8obnjFqHCpsRy3oVJ7RiJZrY96IwBjY8k0exvc!/b&bo=OQafAwAAAAADB4E!&rf=viewer_4" alt="model"></p>
 <center>图：ImageNet竞赛模型的错误率逐年降低</center>
+#### LeNet
+LeNet-5诞生于 1994 年，由Yann LeCun等人提出，是最早的卷积神经网络之一，为之后的CNN发展奠定了基础。
 
-<h4 id="LeNet"><a href="#LeNet" class="headerlink" title="LeNet"></a>LeNet</h4><p>LeNet-5诞生于 1994 年，由Yann LeCun等人提出，是最早的卷积神经网络之一，为之后的CNN发展奠定了基础。</p>
 <p><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUUDuIi9DNSR22HHxh95jzA0tlJfF5GzRJeas7b4iVQeNPj0WFCmUFgMe.IDT*k1ciL5fd7RuMDPbnYqwkUbdd0k!/b&bo=UgPrAAAAAAADF4g!&rf=viewer_4" alt="lenet"></p>
 <p>LeNet-5 的架构基于这样的观点：（尤其是）图像的特征分布在整张图像上，以及带有可学习参数的卷积是一种用少量参数在多个位置上提取相似特征的有效方式。<br>由于LeNet在最后使用全连接层，导致计算参数过多，在那时候，没有 GPU 帮助训练，只用CPU很难完成全部的训练。这导致模型最后采用的参数少，神经网络的层数也不多。除了算力以外，当时还有一个很大的限制就是算法领域的研究不够深入，还没有深入研究参数初始化和⾮凸优化算法等诸多领域。</p>
 <h4 id="AlexNet"><a href="#AlexNet" class="headerlink" title="AlexNet"></a>AlexNet</h4><p>LeNet虽然在1994年被提出，但是在很长一段时间由于算力的限制而没有很好的发挥作用，直到2012年Alex在ImageNet竞赛中提出深度卷积神经网络模型。<br><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUStHm7xX6WrwMB3xbeQ8pXKEdEu6DYTzQg2V9k5r*KcZfEV5Box2aYbEwL2g0PteM2aDP8jpWBOwhUjiAazGBqM!/b&bo=OAR0AQAAAAARB3k!&rf=viewer_4" alt="alaxnet"></p>
@@ -293,7 +294,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-Datawhale/" rel="tag"># 深度学习 Datawhale</a>
+              <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-Datawhale-%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/" rel="tag"># 深度学习 Datawhale 计算机视觉</a>
           </div>
 
         
@@ -305,7 +306,10 @@
     <a href="/2020/02/14/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%89%93%E5%8D%A1%E7%AC%94%E8%AE%B01/" rel="prev" title="动手学深度学习打卡笔记1">
       <i class="fa fa-chevron-left"></i> 动手学深度学习打卡笔记1
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/02/16/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%89%93%E5%8D%A1%E7%AC%94%E8%AE%B02-2/" rel="next" title="动手学深度学习打卡笔记2-2">
+      动手学深度学习打卡笔记2-2 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -365,7 +369,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#卷积神经网络Convolutional-Neural-Network"><span class="nav-number">1.</span> <span class="nav-text">卷积神经网络Convolutional Neural Network</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#卷积神经网络基本组成"><span class="nav-number">1.1.</span> <span class="nav-text">卷积神经网络基本组成</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#卷积层"><span class="nav-number">1.1.1.</span> <span class="nav-text">卷积层</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#卷积运算"><span class="nav-number">1.1.1.0.1.</span> <span class="nav-text">卷积运算</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#卷积层的超参数"><span class="nav-number">1.1.1.0.2.</span> <span class="nav-text">卷积层的超参数</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#多通道卷积"><span class="nav-number">1.1.1.0.3.</span> <span class="nav-text">多通道卷积</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#池化层"><span class="nav-number">1.1.2.</span> <span class="nav-text">池化层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CNN和全连接层（fully-connected-layers，FC）的简单比较"><span class="nav-number">1.1.3.</span> <span class="nav-text">CNN和全连接层（fully connected layers，FC）的简单比较</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CNN衍生模型发展"><span class="nav-number">1.2.</span> <span class="nav-text">CNN衍生模型发展</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#LeNet"><span class="nav-number">1.2.1.</span> <span class="nav-text">LeNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AlexNet"><span class="nav-number">1.2.2.</span> <span class="nav-text">AlexNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#VGGNet"><span class="nav-number">1.2.3.</span> <span class="nav-text">VGGNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NiN"><span class="nav-number">1.2.4.</span> <span class="nav-text">NiN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GoogLeNet"><span class="nav-number">1.2.5.</span> <span class="nav-text">GoogLeNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#To-be-continue"><span class="nav-number">1.2.6.</span> <span class="nav-text">To be continue</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#卷积神经网络Convolutional-Neural-Network"><span class="nav-number">1.</span> <span class="nav-text">卷积神经网络Convolutional Neural Network</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#卷积神经网络基本组成"><span class="nav-number">1.1.</span> <span class="nav-text">卷积神经网络基本组成</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#卷积层"><span class="nav-number">1.1.1.</span> <span class="nav-text">卷积层</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#卷积运算"><span class="nav-number">1.1.1.0.1.</span> <span class="nav-text">卷积运算</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#卷积层的超参数"><span class="nav-number">1.1.1.0.2.</span> <span class="nav-text">卷积层的超参数</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#多通道卷积"><span class="nav-number">1.1.1.0.3.</span> <span class="nav-text">多通道卷积</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#池化层"><span class="nav-number">1.1.2.</span> <span class="nav-text">池化层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CNN和全连接层（fully-connected-layers，FC）的简单比较"><span class="nav-number">1.1.3.</span> <span class="nav-text">CNN和全连接层（fully connected layers，FC）的简单比较</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CNN衍生模型发展"><span class="nav-number">1.2.</span> <span class="nav-text">CNN衍生模型发展</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AlexNet"><span class="nav-number">1.2.1.</span> <span class="nav-text">AlexNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#VGGNet"><span class="nav-number">1.2.2.</span> <span class="nav-text">VGGNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NiN"><span class="nav-number">1.2.3.</span> <span class="nav-text">NiN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GoogLeNet"><span class="nav-number">1.2.4.</span> <span class="nav-text">GoogLeNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#To-be-continue"><span class="nav-number">1.2.5.</span> <span class="nav-text">To be continue</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -379,12 +383,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

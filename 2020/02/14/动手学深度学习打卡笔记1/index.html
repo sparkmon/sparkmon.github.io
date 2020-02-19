@@ -57,9 +57,9 @@
 <meta property="og:image" content="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUVqAvgGH413dL0MGZI*wkEGMB6TOoUfC.lfO14tzUSr.94AOvGKTjPfmhJ29vTaDmWcGAYcEpLji.dXFtFq4Tg4!/b&bo=7QFJAQAAAAADB4Y!&rf=viewer_4">
 <meta property="og:image" content="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUYJfQ5HPmdyj4o0YEIpAooae9GjYHI8GDs01C.P5k9P1iRFkuEHzAM7yv6yLwzVCNzdUBXidvfWbBQwwi*NwgnY!/b&bo=.AFNAQAAAAADF4c!&rf=viewer_4">
 <meta property="article:published_time" content="2020-02-14T08:09:05.000Z">
-<meta property="article:modified_time" content="2020-02-15T02:12:07.994Z">
+<meta property="article:modified_time" content="2020-02-18T14:17:42.962Z">
 <meta property="article:author" content="sparkmon">
-<meta property="article:tag" content="深度学习 Datawhale">
+<meta property="article:tag" content="机器学习 Datawhale">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUdff2xh0GbhfnC5xMrpp07SmRfPHKkCWBK*23tr9W6tn6Yl6xqW..psHlGXBxN.NhvaptVyIv0e*Uh93LL..YPA!/b&bo=4QFQAQAAAAADF4M!&rf=viewer_4">
 
@@ -204,7 +204,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-15 10:12:07" itemprop="dateModified" datetime="2020-02-15T10:12:07+08:00">2020-02-15</time>
+                <time title="Modified: 2020-02-18 22:17:42" itemprop="dateModified" datetime="2020-02-18T22:17:42+08:00">2020-02-18</time>
               </span>
 
           
@@ -235,10 +235,11 @@
 <p>softmax与线性回归一样，将输入特征与权重做线性叠加，但是它的输出值个数等于标签里的类别数。为了使输出的离散值具有直观意义且可以衡量，在这里使用softmax运算符。它用指数归一化的形式使输出值转化为值为正且和为1的概率分布。<br>与逻辑回归采用相同的损失函数——交叉熵损失函数。</p>
 <h5 id="3-多层感知机"><a href="#3-多层感知机" class="headerlink" title="3.多层感知机"></a>3.多层感知机</h5><p>多层感知机相较于线性模型添加了隐藏层，隐藏层和输出层都是全连接层。同时，隐藏层也设置了权重和偏差，将它的表达式带入输出后可以轻易发现联立后的式子依然是一个单层神经网络（仿射变换）。<br>由此，这里可以引入非线性函数进行变换之后，再作为下一个全连接层的输入。这个非线性函数被称为激活函数（activation function)。<br>下面是几种常用的激活函数：</p>
 <ul>
-<li>ReLU<br><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUdff2xh0GbhfnC5xMrpp07SmRfPHKkCWBK*23tr9W6tn6Yl6xqW..psHlGXBxN.NhvaptVyIv0e*Uh93LL..YPA!/b&bo=4QFQAQAAAAADF4M!&rf=viewer_4" alt="ReLU"></li>
+<li>ReLU（rectified linear unit）<br><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUdff2xh0GbhfnC5xMrpp07SmRfPHKkCWBK*23tr9W6tn6Yl6xqW..psHlGXBxN.NhvaptVyIv0e*Uh93LL..YPA!/b&bo=4QFQAQAAAAADF4M!&rf=viewer_4" alt="ReLU"></li>
 <li>Sigmoid函数<br><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUVqAvgGH413dL0MGZI*wkEGMB6TOoUfC.lfO14tzUSr.94AOvGKTjPfmhJ29vTaDmWcGAYcEpLji.dXFtFq4Tg4!/b&bo=7QFJAQAAAAADB4Y!&rf=viewer_4" alt="sigmoid"></li>
-<li>tanh函数（一般用在生成对抗网络和循环神经网络）<br><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUYJfQ5HPmdyj4o0YEIpAooae9GjYHI8GDs01C.P5k9P1iRFkuEHzAM7yv6yLwzVCNzdUBXidvfWbBQwwi*NwgnY!/b&bo=.AFNAQAAAAADF4c!&rf=viewer_4" alt="tanh"><br>ReLu函数是一个通用的激活函数，体现在<br>1）在神经网络层数较多的时候，最好使用ReLu函数，ReLu函数较简单计算量少，而sigmoid和tanh函数计算量则大很多。例如卷积神经网络和全连接神经网络大都使用ReLU。<br>2）由于梯度消失导致训练收敛速度较慢时，要避免使用sigmoid和tanh函数。<br>所以，在选择激活函数的时候可以先选用ReLu函数，如果效果不理想再尝试其他激活函数。<br>但是，需要注意的是ReLU函数只能在隐藏层中使用。用于分类器时，sigmoid函数及其组合通常效果更好。</li>
+<li>tanh函数（一般用在生成对抗网络和循环神经网络）<br><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUYJfQ5HPmdyj4o0YEIpAooae9GjYHI8GDs01C.P5k9P1iRFkuEHzAM7yv6yLwzVCNzdUBXidvfWbBQwwi*NwgnY!/b&bo=.AFNAQAAAAADF4c!&rf=viewer_4" alt="tanh"></li>
 </ul>
+<p>ReLu函数是一个通用的激活函数，体现在<br>1）在神经网络层数较多的时候，最好使用ReLu函数，ReLu函数较简单计算量少，而sigmoid和tanh函数计算量则大很多。例如卷积神经网络和全连接神经网络大都使用ReLU。<br>2）由于梯度消失导致训练收敛速度较慢时，要避免使用sigmoid和tanh函数。<br>Sigmoid函数除了容易造成梯度消失现象以外，由于它不以零点为中心且函数值一直为正，导致它有zig-zag现象（不同维度的梯度变化方向相同）而使函数的收敛速度变慢。<br>所以，在选择激活函数的时候可以先选用ReLu函数，如果效果不理想再尝试其他激活函数。<br>但是，需要注意的是ReLU函数只能在隐藏层中使用。用于分类器时，sigmoid函数及其组合通常效果更好。</p>
 <h6 id="过拟合"><a href="#过拟合" class="headerlink" title="过拟合"></a>过拟合</h6><blockquote>
 <p>过拟合指训练误差较低但是泛化误差较大，且二者相差较大的现象。</p>
 </blockquote>
@@ -247,7 +248,15 @@
 <li>L2范数<br>L2范数正则化也叫权重衰减，它通过惩罚绝对值较大的模型参数为需要学习的模型增加了限制。</li>
 <li>丢弃法Dropout<br>对隐藏层使用丢弃法，即丢弃一定概率该层的隐藏单元，丢弃概率为超参数。</li>
 </ul>
-<h6 id="梯度消失、梯度爆炸"><a href="#梯度消失、梯度爆炸" class="headerlink" title="梯度消失、梯度爆炸"></a>梯度消失、梯度爆炸</h6><p>当神经网络的层数较多时，模型的数值稳定性容易变差，梯度的计算也容易出现消失或爆炸。</p>
+<h6 id="梯度消失、梯度爆炸"><a href="#梯度消失、梯度爆炸" class="headerlink" title="梯度消失、梯度爆炸"></a>梯度消失、梯度爆炸</h6><blockquote>
+<p>当神经网络的层数较多时，模型的数值稳定性容易变差，梯度的计算也容易出现消失或爆炸。</p>
+</blockquote>
+<p>梯度消失的解决办法：</p>
+<ul>
+<li>使用ReLU激活函数。</li>
+<li>深度残差网络ResNet。</li>
+<li>批标准化Batch Normalization。</li>
+</ul>
 
     </div>
 
@@ -257,7 +266,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-Datawhale/" rel="tag"># 深度学习 Datawhale</a>
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-Datawhale/" rel="tag"># 机器学习 Datawhale</a>
           </div>
 
         
@@ -346,12 +355,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
