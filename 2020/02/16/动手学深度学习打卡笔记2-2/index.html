@@ -53,16 +53,17 @@
 <meta property="og:site_name" content="Sparkmon.AI">
 <meta property="og:description" content="这是Datawhale和伯禹学院联合和鲸平台组织的”动手学深度学习“公益学习活动打卡笔记，同时也整理进了一些我平时学习的内容。使用的DIve into DL是pytorch版本，中文网页版链接：https:&#x2F;&#x2F;tangshusen.me&#x2F;Dive-into-DL-PyTorch&#x2F;#&#x2F;  语言处理基础文本预处理通常包括四个步骤：  读入文本 分词（token） 建立字典，将每个词映射到一个唯一的索">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUb3wvA50wcDXTZAceniPKPIAcxcfl6dJU6oY1Z1d0dueaDp3NakGS0uEasFXBbyb6uInLFEt29c..5ySazIvzDE!/b&bo=7gFBAAAAAAADB4w!&rf=viewer_4">
 <meta property="og:image" content="http://d3kbpzbmcynnmx.cloudfront.net/wp-content/uploads/2015/09/rnn.jpg">
 <meta property="og:image" content="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUeRbQTS51LdK2818Lyfp32t1jP4fTqn08eKkqTXuns9JhT04Dpzm9*pB7jMXDEOZU6NIAJ2nZXrvKehEkGWxd*M!/b&bo=wgSEAQAAAAADJ0E!&rf=viewer_4">
 <meta property="og:image" content="https://colah.github.io/posts/2015-08-Understanding-LSTMs/img/LSTM3-SimpleRNN.png">
 <meta property="og:image" content="https://colah.github.io/posts/2015-08-Understanding-LSTMs/img/LSTM3-chain.png">
 <meta property="article:published_time" content="2020-02-16T11:36:42.000Z">
-<meta property="article:modified_time" content="2020-02-19T13:17:58.504Z">
+<meta property="article:modified_time" content="2020-02-20T02:50:18.077Z">
 <meta property="article:author" content="sparkmon">
 <meta property="article:tag" content="深度学习 Datawhale 自然语言处理">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://d3kbpzbmcynnmx.cloudfront.net/wp-content/uploads/2015/09/rnn.jpg">
+<meta name="twitter:image" content="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUb3wvA50wcDXTZAceniPKPIAcxcfl6dJU6oY1Z1d0dueaDp3NakGS0uEasFXBbyb6uInLFEt29c..5ySazIvzDE!/b&bo=7gFBAAAAAAADB4w!&rf=viewer_4">
 
 <link rel="canonical" href="http://yoursite.com/2020/02/16/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%89%93%E5%8D%A1%E7%AC%94%E8%AE%B02-2/">
 
@@ -205,7 +206,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-19 21:17:58" itemprop="dateModified" datetime="2020-02-19T21:17:58+08:00">2020-02-19</time>
+                <time title="Modified: 2020-02-20 10:50:18" itemprop="dateModified" datetime="2020-02-20T10:50:18+08:00">2020-02-20</time>
               </span>
 
           
@@ -233,7 +234,7 @@
 <h4 id="语言模型"><a href="#语言模型" class="headerlink" title="语言模型"></a>语言模型</h4><blockquote>
 <p>语言模型的目标是为了判断该序列是否合理，即计算该序列的概率。</p>
 </blockquote>
-<p>语言模型（language model）是自然语言处理的重要技术，用它来预测下一个时刻的输出。自然语言处理中最常见的数据是文本数据。我们可以把一段自然语言文本看作一段离散的时间序列。假设序列w1,w2,…,wT中的每个词是依次生成的，则有<br>$$<br>P(w_1,w_2,\cdots,w_T)=\prod_{t=1}^TP(w_t|w_1,\cdots,w_{t-1}).<br>$$</p>
+<p>语言模型（language model）是自然语言处理的重要技术，用它来预测下一个时刻的输出。自然语言处理中最常见的数据是文本数据。我们可以把一段自然语言文本看作一段离散的时间序列。假设序列w1,w2,…,wT中的每个词是依次生成的，则有<br><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUb3wvA50wcDXTZAceniPKPIAcxcfl6dJU6oY1Z1d0dueaDp3NakGS0uEasFXBbyb6uInLFEt29c..5ySazIvzDE!/b&bo=7gFBAAAAAAADB4w!&rf=viewer_4" alt="formula"></p>
 <p>为了计算语言模型，我们需要计算词的概率，以及一个词在给定前几个词的情况下的条件概率，即语言模型参数。</p>
 <h5 id="n元语法"><a href="#n元语法" class="headerlink" title="n元语法"></a>n元语法</h5><p>n元语法通过马尔可夫假设（虽然并不一定成立）简化了语言模型的计算。这里的马尔可夫假设是指一个词的出现只与前面n个词相关，即n阶马尔可夫链（Markov chain of order n）。n元语法是基于n−1阶马尔可夫链的概率语言模型，其中n权衡了计算复杂度和模型准确性。</p>
 <h3 id="循环神经网络Recurrent-Neural-Networks"><a href="#循环神经网络Recurrent-Neural-Networks" class="headerlink" title="循环神经网络Recurrent Neural Networks"></a>循环神经网络Recurrent Neural Networks</h3><blockquote>
@@ -261,7 +262,8 @@ Cell state是LSTM的关键，它传递长期记忆，只有相乘和相加的简
  ![lstm](http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUQouRCoQtp8cEyZIvEqPE81sQhilkcr8YSHpwG3pYWylstqrO59xjn285r.4Q4Y9BkTmKOGUX5cV9oOqiWaIkCc!/b&bo=EQXLAQAAAAARB.4!&rf=viewer_4)
 
 <p><em>参考：<a href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/" target="_blank" rel="noopener">https://colah.github.io/posts/2015-08-Understanding-LSTMs/</a></em></p>
-<h5 id="LSTM案例：文本生成、命名实体识别"><a href="#LSTM案例：文本生成、命名实体识别" class="headerlink" title="LSTM案例：文本生成、命名实体识别"></a>LSTM案例：文本生成、命名实体识别</h5>
+<h5 id="LSTM案例：文本生成、命名实体识别"><a href="#LSTM案例：文本生成、命名实体识别" class="headerlink" title="LSTM案例：文本生成、命名实体识别"></a>LSTM案例：文本生成、命名实体识别</h5><h3 id="NOT-AN-END"><a href="#NOT-AN-END" class="headerlink" title="NOT AN END"></a>NOT AN END</h3><p>以上这些可以说只是要了解自然语言处理必须知道的一些基本内容。关于nlp的具体相关算法和思想，如word2vec、nagetive sampling等，有待整理！</p>
+
     </div>
 
     
@@ -342,7 +344,7 @@ Cell state是LSTM的关键，它传递长期记忆，只有相乘和相加的简
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#语言处理基础"><span class="nav-number">1.</span> <span class="nav-text">语言处理基础</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#文本预处理"><span class="nav-number">1.1.</span> <span class="nav-text">文本预处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#语言模型"><span class="nav-number">1.2.</span> <span class="nav-text">语言模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#n元语法"><span class="nav-number">1.2.1.</span> <span class="nav-text">n元语法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#循环神经网络Recurrent-Neural-Networks"><span class="nav-number">2.</span> <span class="nav-text">循环神经网络Recurrent Neural Networks</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RNN模型种类"><span class="nav-number">2.1.</span> <span class="nav-text">RNN模型种类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RNN模型的重要变种——LSTM（Long-short-term-memory"><span class="nav-number">2.2.</span> <span class="nav-text">RNN模型的重要变种——LSTM（Long short-term memory)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#LSTM案例：文本生成、命名实体识别"><span class="nav-number">2.2.1.</span> <span class="nav-text">LSTM案例：文本生成、命名实体识别</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#语言处理基础"><span class="nav-number">1.</span> <span class="nav-text">语言处理基础</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#文本预处理"><span class="nav-number">1.1.</span> <span class="nav-text">文本预处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#语言模型"><span class="nav-number">1.2.</span> <span class="nav-text">语言模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#n元语法"><span class="nav-number">1.2.1.</span> <span class="nav-text">n元语法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#循环神经网络Recurrent-Neural-Networks"><span class="nav-number">2.</span> <span class="nav-text">循环神经网络Recurrent Neural Networks</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RNN模型种类"><span class="nav-number">2.1.</span> <span class="nav-text">RNN模型种类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RNN模型的重要变种——LSTM（Long-short-term-memory"><span class="nav-number">2.2.</span> <span class="nav-text">RNN模型的重要变种——LSTM（Long short-term memory)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#LSTM案例：文本生成、命名实体识别"><span class="nav-number">2.2.1.</span> <span class="nav-text">LSTM案例：文本生成、命名实体识别</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NOT-AN-END"><span class="nav-number">3.</span> <span class="nav-text">NOT AN END</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

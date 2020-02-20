@@ -196,7 +196,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-19 21:17:58" itemprop="dateModified" datetime="2020-02-19T21:17:58+08:00">2020-02-19</time>
+                <time title="Modified: 2020-02-20 10:50:18" itemprop="dateModified" datetime="2020-02-20T10:50:18+08:00">2020-02-20</time>
               </span>
 
           
@@ -224,7 +224,7 @@
 <h4 id="语言模型"><a href="#语言模型" class="headerlink" title="语言模型"></a>语言模型</h4><blockquote>
 <p>语言模型的目标是为了判断该序列是否合理，即计算该序列的概率。</p>
 </blockquote>
-<p>语言模型（language model）是自然语言处理的重要技术，用它来预测下一个时刻的输出。自然语言处理中最常见的数据是文本数据。我们可以把一段自然语言文本看作一段离散的时间序列。假设序列w1,w2,…,wT中的每个词是依次生成的，则有<br>$$<br>P(w_1,w_2,\cdots,w_T)=\prod_{t=1}^TP(w_t|w_1,\cdots,w_{t-1}).<br>$$</p>
+<p>语言模型（language model）是自然语言处理的重要技术，用它来预测下一个时刻的输出。自然语言处理中最常见的数据是文本数据。我们可以把一段自然语言文本看作一段离散的时间序列。假设序列w1,w2,…,wT中的每个词是依次生成的，则有<br><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUb3wvA50wcDXTZAceniPKPIAcxcfl6dJU6oY1Z1d0dueaDp3NakGS0uEasFXBbyb6uInLFEt29c..5ySazIvzDE!/b&bo=7gFBAAAAAAADB4w!&rf=viewer_4" alt="formula"></p>
 <p>为了计算语言模型，我们需要计算词的概率，以及一个词在给定前几个词的情况下的条件概率，即语言模型参数。</p>
 <h5 id="n元语法"><a href="#n元语法" class="headerlink" title="n元语法"></a>n元语法</h5><p>n元语法通过马尔可夫假设（虽然并不一定成立）简化了语言模型的计算。这里的马尔可夫假设是指一个词的出现只与前面n个词相关，即n阶马尔可夫链（Markov chain of order n）。n元语法是基于n−1阶马尔可夫链的概率语言模型，其中n权衡了计算复杂度和模型准确性。</p>
 <h3 id="循环神经网络Recurrent-Neural-Networks"><a href="#循环神经网络Recurrent-Neural-Networks" class="headerlink" title="循环神经网络Recurrent Neural Networks"></a>循环神经网络Recurrent Neural Networks</h3><blockquote>
@@ -252,7 +252,8 @@ Cell state是LSTM的关键，它传递长期记忆，只有相乘和相加的简
  ![lstm](http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUQouRCoQtp8cEyZIvEqPE81sQhilkcr8YSHpwG3pYWylstqrO59xjn285r.4Q4Y9BkTmKOGUX5cV9oOqiWaIkCc!/b&bo=EQXLAQAAAAARB.4!&rf=viewer_4)
 
 <p><em>参考：<a href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/" target="_blank" rel="noopener">https://colah.github.io/posts/2015-08-Understanding-LSTMs/</a></em></p>
-<h5 id="LSTM案例：文本生成、命名实体识别"><a href="#LSTM案例：文本生成、命名实体识别" class="headerlink" title="LSTM案例：文本生成、命名实体识别"></a>LSTM案例：文本生成、命名实体识别</h5>
+<h5 id="LSTM案例：文本生成、命名实体识别"><a href="#LSTM案例：文本生成、命名实体识别" class="headerlink" title="LSTM案例：文本生成、命名实体识别"></a>LSTM案例：文本生成、命名实体识别</h5><h3 id="NOT-AN-END"><a href="#NOT-AN-END" class="headerlink" title="NOT AN END"></a>NOT AN END</h3><p>以上这些可以说只是要了解自然语言处理必须知道的一些基本内容。关于nlp的具体相关算法和思想，如word2vec、nagetive sampling等，有待整理！</p>
+
       
     </div>
 
