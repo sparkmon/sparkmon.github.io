@@ -165,6 +165,191 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/03/%E3%80%8A%E7%AE%97%E6%B3%95%E5%9B%BE%E8%A7%A3%E3%80%8BGrokking-algorithms%EF%BC%88%E4%B8%80%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="sparkmon">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sparkmon.AI">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/03/%E3%80%8A%E7%AE%97%E6%B3%95%E5%9B%BE%E8%A7%A3%E3%80%8BGrokking-algorithms%EF%BC%88%E4%B8%80%EF%BC%89/" class="post-title-link" itemprop="url">《算法图解》Grokking algorithms（一）</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-03-03 15:48:06 / Modified: 15:49:44" itemprop="dateCreated datePublished" datetime="2020-03-03T15:48:06+08:00">2020-03-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index">
+                    <span itemprop="name">学习笔记</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="《算法图解》Grokking-algorithms（一）"><a href="#《算法图解》Grokking-algorithms（一）" class="headerlink" title="《算法图解》Grokking algorithms（一）"></a>《算法图解》Grokking algorithms（一）</h2><blockquote>
+<p>最近被斌叔推荐的一本算法入门书籍，简洁精巧地讲了十几个常用算法，“像小说一样有趣”。它使我能更轻松地理解编程中的常用算法思想，我在这里分享其中的知识点和代码，原书中使用的是python2.7，我使用的是python3.6。文中插图均为原书中的配图，生动形象，同时这本书的github链接：<a href="https://github.com/egonschiele/grokking_algorithms" target="_blank" rel="noopener">https://github.com/egonschiele/grokking_algorithms</a></p>
+</blockquote>
+<p>这本书的第一章介绍了第一种算法——二分查找和大O表示法。大O表示法指出了算法的运行时间，算法运行时间并不以秒为单位而是从其增速的角度来衡量。在第四章中介绍了平均情况和最糟情况</p>
+<h4 id="选择排序-Selection-sort"><a href="#选择排序-Selection-sort" class="headerlink" title="选择排序 Selection sort"></a>选择排序 Selection sort</h4><p>数组和链表是两种基本的数据结构，本书的第二章通过选择排序来更好的理解数组。<br>数组在储存是必须是连续的，而链表因为使用地址指向而可以分开储存。所以，数组的读取速度很快，但插入和删除速度很慢，即如下图所示。<br><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUWq9pryhTreotZDRh02DtHvEFqBhEucirv2aRRvK5QJUxwOfYl4.FWycLGSH*S*qtH1*MV0YvZuCI53PMFO2UgQ!/b&bo=bgVaAgAAAAARBwM!&rf=viewer_4" alt="img"></p>
+<p>那么，本书的第二种算法——选择排序通过将数据从大到小或从小到大排列，运行时间即为O(n^2)。<br>下面是将数组元素从小到大排列的代码示例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Finds the smallest value in an array</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">findSmallest</span><span class="params">(arr)</span>:</span></span><br><span class="line">  <span class="comment"># Stores the smallest value</span></span><br><span class="line">  smallest = arr[<span class="number">0</span>]</span><br><span class="line">  <span class="comment"># Stores the index of the smallest value</span></span><br><span class="line">  smallest_index = <span class="number">0</span></span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, len(arr)):</span><br><span class="line">    <span class="keyword">if</span> arr[i] &lt; smallest:</span><br><span class="line">      smallest_index = i</span><br><span class="line">      smallest = arr[i]      </span><br><span class="line">  <span class="keyword">return</span> smallest_index</span><br><span class="line"></span><br><span class="line"><span class="comment"># Sort array</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">selectionSort</span><span class="params">(arr)</span>:</span></span><br><span class="line">  newArr = []</span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> range(len(arr)):</span><br><span class="line">      <span class="comment"># Finds the smallest element in the array and adds it to the new array</span></span><br><span class="line">      smallest = findSmallest(arr)</span><br><span class="line">      newArr.append(arr.pop(smallest))</span><br><span class="line">  <span class="keyword">return</span> newArr</span><br></pre></td></tr></table></figure>
+
+<p>Input</p>
+<figure class="highlight plain"><figcaption><span>3, 6, 2, 10]))```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">&#96;&#96;&#96;[2, 3, 5, 6, 10]</span><br></pre></td></tr></table></figure>
+
+<h4 id="递归recusion"><a href="#递归recusion" class="headerlink" title="递归recusion"></a>递归recusion</h4><blockquote>
+<p>“如果使用循环，程序的性能可能更高；如果使用递归，程序可能更容易理解。如何选择要看什么对你来说更重要。”</p>
+</blockquote>
+<p>递归是一种自己调用自己的函数，它易于理解，但不一定在计算性能上有优势。编写递归函数时，必须告诉它何时停止递归。因此，递归函数的组成：基线条件（base case）和递归条件（recursive case）。倒计时函数的代码示例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countdown</span><span class="params">(i)</span>:</span></span><br><span class="line">	print(i)</span><br><span class="line">	<span class="keyword">if</span> i&lt;= <span class="number">1</span>:         <span class="comment">#base case</span></span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	<span class="keyword">else</span>:             <span class="comment">#recursive case</span></span><br><span class="line">		countdown(i<span class="number">-1</span>)</span><br></pre></td></tr></table></figure>
+
+<h5 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h5><p>栈是一种数据结构，计算机在内部使用被称为调用栈（call stack）的栈。当你调用函数时，计算机用栈来表示为这个函数调用分配的一块内存。那么，当调用某个函数时还需调用其他函数的情况，如何理解栈？</p>
+<ul>
+<li>调用其他函数时，当前函数暂停并处于未完成状态。</li>
+<li>调用其他函数时，计算机为其分配一块内存位于该函数上，在函数调用返回后，栈顶的内存块被弹出。</li>
+</ul>
+<p>使用栈虽然方便，但是储存详尽的信息可能占用大量的内存，如果调用递归函数但不小心导致它没完没了运行，则最后会因为栈溢出而终止。</p>
+<h4 id="快速排序Quicksort"><a href="#快速排序Quicksort" class="headerlink" title="快速排序Quicksort"></a>快速排序Quicksort</h4><p>示例为使用循环和递归完成累加：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#loop sum</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum</span><span class="params">(arr)</span>:</span></span><br><span class="line">  total = <span class="number">0</span></span><br><span class="line">  <span class="keyword">for</span> x <span class="keyword">in</span> arr:</span><br><span class="line">    total += x</span><br><span class="line">  <span class="keyword">return</span> total</span><br><span class="line"></span><br><span class="line"><span class="comment">#recursive sum</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum</span><span class="params">(list)</span>:</span></span><br><span class="line">  <span class="keyword">if</span> list == []:</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">  <span class="keyword">return</span> list[<span class="number">0</span>] + sum(list[<span class="number">1</span>:])</span><br></pre></td></tr></table></figure>
+
+<p>递归式解决问题的思路是一种著名的问题解决方法——分而治之（divide and conquer，D&amp;C）。<br>快速排序就是一个重要的D&amp;C算法。它通过设置基准值（pivot）后对数组进行分区（partitioning），再在分区进行相同的操作来完成。<br>快速排序的代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quicksort</span><span class="params">(array)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> len(array) &lt; <span class="number">2</span>:</span><br><span class="line">    <span class="comment"># base case, arrays with 0 or 1 element are already "sorted"</span></span><br><span class="line">        <span class="keyword">return</span> array</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># recursive case</span></span><br><span class="line">        pivot = array[<span class="number">0</span>]</span><br><span class="line">        <span class="comment"># sub-array of all the elements less than the pivot</span></span><br><span class="line">        less = [i <span class="keyword">for</span> i <span class="keyword">in</span> array[<span class="number">1</span>:] <span class="keyword">if</span> i &lt;= pivot]</span><br><span class="line">        <span class="comment"># sub-array of all the elements greater than the pivot</span></span><br><span class="line">        greater = [i <span class="keyword">for</span> i <span class="keyword">in</span> array[<span class="number">1</span>:] <span class="keyword">if</span> i &gt; pivot]</span><br><span class="line">        <span class="keyword">return</span> quicksort(less) + [pivot] + quicksort(greater)</span><br></pre></td></tr></table></figure>
+
+<p>快速排序算法的平均运行时间为O(n log n)，而最糟情况则为O(n^2)。下图为最佳情况，也就是平均情况。<br><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvURUteE0AJPcjgK04axzTF49QYI0HW21xq5H.fbATB3O39PgDIEotfitBEWXCi0X8Ryn9I*YzMgOi9tSxbZFwl*8!/b&bo=kAnXAwAAAAARB30!&rf=viewer_4" alt="quick"></p>
+<h4 id="散列表Hash-tables"><a href="#散列表Hash-tables" class="headerlink" title="散列表Hash tables"></a>散列表Hash tables</h4><p>散列表是一种包含额外逻辑的强大的数据结构，它使用散列函数来确定元素的储存位置。Python使用的散列表实现为<em>字典</em>。<br>散列表可以用于查找、防止重复、储存缓存以缓解服务器的压力。<br>那么，散列表是如何储存的？<br>它虽然模拟映射关系，但是不可能总是将不同的键映射到数组的不同位置。当遇到冲突（collision）情况，即两个键映射到了同一个位置，就在这个位置存储一个链表。所以，一个好的散列函数将极少导致冲突，使散列表的速度不会太慢。要避免冲突，需要有：</p>
+<ul>
+<li>较低的填装因子；</li>
+<li>良好的散列函数。</li>
+</ul>
+<h4 id="广度优先搜索Breadth-first-search，BFS"><a href="#广度优先搜索Breadth-first-search，BFS" class="headerlink" title="广度优先搜索Breadth-first search，BFS"></a>广度优先搜索Breadth-first search，BFS</h4><p>广度优先搜索是一种用于图的查找算法，能找出两样东西之间的最短距离。</p>
+<ul>
+<li>图由节点和边组成，用于模拟不同的东西是如何相连的。</li>
+<li>广度优先搜索采用“队列（queue）”的数据结构。和栈后进先出(Last In First Out) 的数据结构相对，是一种先进先出(First In First Out) 的数据结构。</li>
+</ul>
+<p>广度优先搜索的运行时间为O（人数+边数），写作O(V+E)，其中V为顶点（vertice）数，E为边数。</p>
+<ul>
+<li>拓扑排序可以穿建一个有序的任务列表；</li>
+<li>树是图的子集，树是一种完全单向指向的图。</li>
+</ul>
+<p>以上是该书的前半部分内容，后半部分待整理。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/03/Python%E6%95%B0%E6%8D%AE%E6%B8%85%E6%B4%97%E3%80%81EDA%E5%92%8C%E5%8F%AF%E8%A7%86%E5%8C%96%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="sparkmon">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sparkmon.AI">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/03/Python%E6%95%B0%E6%8D%AE%E6%B8%85%E6%B4%97%E3%80%81EDA%E5%92%8C%E5%8F%AF%E8%A7%86%E5%8C%96%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B/" class="post-title-link" itemprop="url">Python数据清洗、EDA和可视化简单示例</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-03-03 15:33:17 / Modified: 15:49:50" itemprop="dateCreated datePublished" datetime="2020-03-03T15:33:17+08:00">2020-03-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index">
+                    <span itemprop="name">学习笔记</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>波士顿房价数据集是回归问题的经典数据集，本文用Python对其进行了一些基础的数据处理和可视化操作，简单探索了数据规律和模型的应用。在这里没有提供原始数据集。</p>
+<h4 id="数据集导入和可视化"><a href="#数据集导入和可视化" class="headerlink" title="数据集导入和可视化"></a>数据集导入和可视化</h4>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/16/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%89%93%E5%8D%A1%E7%AC%94%E8%AE%B02-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -319,7 +504,7 @@ Cell state是LSTM的关键，它传递长期记忆，只有相乘和相加的简
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-20 17:50:05" itemprop="dateModified" datetime="2020-02-20T17:50:05+08:00">2020-02-20</time>
+                <time title="Modified: 2020-02-22 20:57:18" itemprop="dateModified" datetime="2020-02-22T20:57:18+08:00">2020-02-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -375,9 +560,8 @@ Cell state是LSTM的关键，它传递长期记忆，只有相乘和相加的简
 </ul>
 <h3 id="CNN衍生模型发展"><a href="#CNN衍生模型发展" class="headerlink" title="CNN衍生模型发展"></a>CNN衍生模型发展</h3><p> <img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUZVpRDDahd48dDrt7CJv.Y8TKFJKwTMYYk6AI7qvDWWeAdxnT8obnjFqHCpsRy3oVJ7RiJZrY96IwBjY8k0exvc!/b&bo=OQafAwAAAAADB4E!&rf=viewer_4" alt="model"></p>
 <center>图：ImageNet竞赛模型的错误率逐年降低</center>
-#### LeNet
-LeNet-5诞生于 1994 年，由Yann LeCun等人提出，是最早的卷积神经网络之一，为之后的CNN发展奠定了基础。
 
+<h4 id="LeNet"><a href="#LeNet" class="headerlink" title="LeNet"></a>LeNet</h4><p>LeNet-5诞生于 1994 年，由Yann LeCun等人提出，是最早的卷积神经网络之一，为之后的CNN发展奠定了基础。</p>
 <p><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUUDuIi9DNSR22HHxh95jzA0tlJfF5GzRJeas7b4iVQeNPj0WFCmUFgMe.IDT*k1ciL5fd7RuMDPbnYqwkUbdd0k!/b&bo=UgPrAAAAAAADF4g!&rf=viewer_4" alt="lenet"></p>
 <p>LeNet-5 的架构基于这样的观点：（尤其是）图像的特征分布在整张图像上，以及带有可学习参数的卷积是一种用少量参数在多个位置上提取相似特征的有效方式。<br>由于LeNet在最后使用全连接层，导致计算参数过多，在那时候，没有 GPU 帮助训练，只用CPU很难完成全部的训练。这导致模型最后采用的参数少，神经网络的层数也不多。除了算力以外，当时还有一个很大的限制就是算法领域的研究不够深入，还没有深入研究参数初始化和⾮凸优化算法等诸多领域。</p>
 <h4 id="AlexNet"><a href="#AlexNet" class="headerlink" title="AlexNet"></a>AlexNet</h4><p>LeNet虽然在1994年被提出，但是在很长一段时间由于算力的限制而没有很好的发挥作用，直到2012年Alex在ImageNet竞赛中提出深度卷积神经网络模型。<br><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUStHm7xX6WrwMB3xbeQ8pXKEdEu6DYTzQg2V9k5r*KcZfEV5Box2aYbEwL2g0PteM2aDP8jpWBOwhUjiAazGBqM!/b&bo=OAR0AQAAAAARB3k!&rf=viewer_4" alt="alaxnet"></p>
@@ -776,7 +960,7 @@ LeNet-5诞生于 1994 年，由Yann LeCun等人提出，是最早的卷积神经
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -787,7 +971,7 @@ LeNet-5诞生于 1994 年，由Yann LeCun等人提出，是最早的卷积神经
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
