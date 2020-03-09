@@ -54,7 +54,7 @@
 <meta property="og:description" content="特征选择对特征进行选择，我们可以进行如下操作。 删除低方差特征1234from sklearn.feature_selection import VarianceThresholdX &#x3D; [[0,0,1],[0,1,0],[1,0,0],[0,1,1],[0,1,0],[0,1,1]]sel &#x3D; VarianceThreshold(threshold&#x3D;(.8 * (1-.8)))sel.fit_t">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-03-09T08:57:00.000Z">
-<meta property="article:modified_time" content="2020-03-09T09:02:38.485Z">
+<meta property="article:modified_time" content="2020-03-09T09:04:18.764Z">
 <meta property="article:author" content="sparkmon">
 <meta property="article:tag" content="机器学习">
 <meta property="article:tag" content="数据分析">
@@ -195,7 +195,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-03-09 16:57:00 / Modified: 17:02:38" itemprop="dateCreated datePublished" datetime="2020-03-09T16:57:00+08:00">2020-03-09</time>
+              <time title="Created: 2020-03-09 16:57:00 / Modified: 17:04:18" itemprop="dateCreated datePublished" datetime="2020-03-09T16:57:00+08:00">2020-03-09</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -229,10 +229,13 @@
 <li>SelectPercentile 保留最高得分百分比之几的特征</li>
 <li>对每个特征应用常见的单变量统计测试：假阳性率（false positive rate) SelectFpr，伪发现率（false discovery rate) SelectFdr ，或者族系误差（family wise error)SelectFwe。</li>
 <li>GenericUnivariateSelect 允许使用可配置方法来进行单变量特征选择。它允许超参数搜索评估器来选择最好的单变量特征。</li>
-<li>将得分函数作为输入，返回单变量的得分和p值（或者仅仅是SelectKBest和SelectPercentile 的分数）：<br>对于回归： f_regression，mutual_inf_regression<br>对于分类： chi2，f_classif，mutual_inf_classif<br>这在之前的<a href="https://sparkmon.github.io/2020/03/03/Python%20EDA%E5%92%8C%E5%8F%AF%E8%A7%86%E5%8C%96%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B/" target="_blank" rel="noopener">数据EDA</a>一文中有例子。<h5 id="基于树模型的特征选择"><a href="#基于树模型的特征选择" class="headerlink" title="基于树模型的特征选择"></a>基于树模型的特征选择</h5>用鸢尾花数据集举例。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> ExtraTreesClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_iris</span><br><span class="line"><span class="keyword">from</span> sklearn.feature_selection <span class="keyword">import</span> SelectFromModel</span><br><span class="line">iris = load_iris()</span><br><span class="line">X,y = iris.data, iris.target</span><br><span class="line">X.shape</span><br></pre></td></tr></table></figure>
-此时X是（150，4）的数组。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">clf = ExtraTreesClassifier(n_estimators=<span class="number">50</span>)</span><br><span class="line">clf = clf.fit(X,y)</span><br><span class="line">clf.feature_importances_</span><br><span class="line">model = SelectFromModel(clf, prefit=<span class="literal">True</span>)</span><br><span class="line">X_new = model.transform(X)</span><br><span class="line">X_new.shape</span><br></pre></td></tr></table></figure>
-经过特征筛选后，X_new是（150，2）的数组。</li>
+<li>将得分函数作为输入，返回单变量的得分和p值（或者仅仅是SelectKBest和SelectPercentile 的分数）：<br>对于回归： f_regression，mutual_inf_regression<br>对于分类： chi2，f_classif，mutual_inf_classif<br>这在之前的<a href="https://sparkmon.github.io/2020/03/03/Python%20EDA%E5%92%8C%E5%8F%AF%E8%A7%86%E5%8C%96%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B/" target="_blank" rel="noopener">数据EDA</a>一文中有例子。</li>
 </ul>
+<h5 id="基于树模型的特征选择"><a href="#基于树模型的特征选择" class="headerlink" title="基于树模型的特征选择"></a>基于树模型的特征选择</h5><p>用鸢尾花数据集举例。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> ExtraTreesClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_iris</span><br><span class="line"><span class="keyword">from</span> sklearn.feature_selection <span class="keyword">import</span> SelectFromModel</span><br><span class="line">iris = load_iris()</span><br><span class="line">X,y = iris.data, iris.target</span><br><span class="line">X.shape</span><br></pre></td></tr></table></figure>
+<p>此时X是（150，4）的数组。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">clf = ExtraTreesClassifier(n_estimators=<span class="number">50</span>)</span><br><span class="line">clf = clf.fit(X,y)</span><br><span class="line">clf.feature_importances_</span><br><span class="line">model = SelectFromModel(clf, prefit=<span class="literal">True</span>)</span><br><span class="line">X_new = model.transform(X)</span><br><span class="line">X_new.shape</span><br></pre></td></tr></table></figure>
+<p>经过特征筛选后，X_new是（150，2）的数组。</p>
 <h4 id="数据预处理sklearn模块"><a href="#数据预处理sklearn模块" class="headerlink" title="数据预处理sklearn模块"></a>数据预处理sklearn模块</h4><h5 id="标准化scale："><a href="#标准化scale：" class="headerlink" title="标准化scale："></a>标准化scale：</h5><ul>
 <li><p>使用sklearn.preprocessing.scale()函数</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> preprocessing</span><br><span class="line">X_scale = preprocessing.scale(X)</span><br></pre></td></tr></table></figure>
@@ -252,10 +255,10 @@
 </li>
 </ul>
 <h5 id="Encoding-categorical-features"><a href="#Encoding-categorical-features" class="headerlink" title="Encoding categorical features"></a>Encoding categorical features</h5><ul>
-<li><p>preprocessing.OrdinalEncoder()</p>
-</li>
-<li><p>preprocessing.OneHotEncoder()</p>
-<h5 id="Generating-polynomial-features-poly"><a href="#Generating-polynomial-features-poly" class="headerlink" title="Generating polynomial features poly"></a>Generating polynomial features poly</h5></li>
+<li>preprocessing.OrdinalEncoder()</li>
+<li>preprocessing.OneHotEncoder()</li>
+</ul>
+<h5 id="Generating-polynomial-features-poly"><a href="#Generating-polynomial-features-poly" class="headerlink" title="Generating polynomial features poly"></a>Generating polynomial features poly</h5><ul>
 <li><p>进行多项式完全交叉相乘：即X的特征从（X1, X2）转换为（1，X1， X2， X1^2， X1X2， X2^2)</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> PolynomialFeatures</span><br><span class="line">X = np.arange(<span class="number">6</span>).reshape(<span class="number">3</span>,<span class="number">2</span>)</span><br><span class="line">poly = PolynomialFeatures(<span class="number">2</span>) <span class="comment"># 转换为2阶</span></span><br><span class="line">poly.fit_transform(X)</span><br></pre></td></tr></table></figure>
 </li>
