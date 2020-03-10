@@ -175,7 +175,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/09/%E5%85%B3%E4%BA%8E%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9%E5%92%8C%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/09/sklearn%E8%BF%9B%E8%A1%8C%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9%E5%92%8C%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -189,7 +189,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/03/09/%E5%85%B3%E4%BA%8E%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9%E5%92%8C%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86/" class="post-title-link" itemprop="url">关于特征选择和数据预处理</a>
+            <a href="/2020/03/09/sklearn%E8%BF%9B%E8%A1%8C%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9%E5%92%8C%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86/" class="post-title-link" itemprop="url">sklearn进行特征选择和数据预处理</a>
         </h1>
 
         <div class="post-meta">
@@ -206,7 +206,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-10 10:20:59" itemprop="dateModified" datetime="2020-03-10T10:20:59+08:00">2020-03-10</time>
+                <time title="Modified: 2020-03-10 16:58:39" itemprop="dateModified" datetime="2020-03-10T16:58:39+08:00">2020-03-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -231,7 +231,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h4 id="特征选择"><a href="#特征选择" class="headerlink" title="特征选择"></a>特征选择</h4><p>对特征进行选择，我们可以进行如下操作。</p>
+          <p>本文主要针对sklearn上能进行的特征筛选和数据清洗代码做一个简单展示。</p>
+<h4 id="特征选择"><a href="#特征选择" class="headerlink" title="特征选择"></a>特征选择</h4><p>对特征进行选择，我们可以进行如下操作。</p>
 <h5 id="删除低方差特征"><a href="#删除低方差特征" class="headerlink" title="删除低方差特征"></a>删除低方差特征</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.feature_selection <span class="keyword">import</span> VarianceThreshold</span><br><span class="line">X = [[<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>],[<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>],[<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>],[<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>]]</span><br><span class="line">sel = VarianceThreshold(threshold=(<span class="number">.8</span> * (<span class="number">1</span><span class="number">-.8</span>)))</span><br><span class="line">sel.fit_transform(X)</span><br></pre></td></tr></table></figure>
 <p>此时的数组已经删除方差不满足threshold的那一列特征。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">array([[0, 1],</span><br><span class="line">       [1, 0],</span><br><span class="line">       [0, 0],</span><br><span class="line">       [1, 1],</span><br><span class="line">       [1, 0],</span><br><span class="line">       [1, 1]])</span><br></pre></td></tr></table></figure>
@@ -248,7 +249,7 @@
 <p>此时X是（150，4）的数组。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">clf = ExtraTreesClassifier(n_estimators=<span class="number">50</span>)</span><br><span class="line">clf = clf.fit(X,y)</span><br><span class="line">clf.feature_importances_</span><br><span class="line">model = SelectFromModel(clf, prefit=<span class="literal">True</span>)</span><br><span class="line">X_new = model.transform(X)</span><br><span class="line">X_new.shape</span><br></pre></td></tr></table></figure>
 <p>经过特征筛选后，X_new是（150，2）的数组。</p>
-<h4 id="数据预处理sklearn模块"><a href="#数据预处理sklearn模块" class="headerlink" title="数据预处理sklearn模块"></a>数据预处理sklearn模块</h4><h5 id="标准化scale："><a href="#标准化scale：" class="headerlink" title="标准化scale："></a>标准化scale：</h5><ul>
+<h4 id="数据预处理sklearn模块"><a href="#数据预处理sklearn模块" class="headerlink" title="数据预处理sklearn模块"></a>数据预处理sklearn模块</h4><h5 id="标准化scale"><a href="#标准化scale" class="headerlink" title="标准化scale"></a>标准化scale</h5><ul>
 <li><p>使用sklearn.preprocessing.scale()函数</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> preprocessing</span><br><span class="line">X_scale = preprocessing.scale(X)</span><br></pre></td></tr></table></figure>
 </li>
@@ -257,7 +258,7 @@
 
 </li>
 </ul>
-<h5 id="将特征的取值缩小到一个范围"><a href="#将特征的取值缩小到一个范围" class="headerlink" title="将特征的取值缩小到一个范围"></a>将特征的取值缩小到一个范围</h5><ul>
+<h5 id="将特征的取值缩小到某一范围"><a href="#将特征的取值缩小到某一范围" class="headerlink" title="将特征的取值缩小到某一范围"></a>将特征的取值缩小到某一范围</h5><ul>
 <li><p>缩放到0到1：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">min_max_scaler = preprocessing.MinMaxScaler()</span><br><span class="line">X_minMax = min_max_scaler.fit_transform(X)</span><br></pre></td></tr></table></figure>
 </li>
@@ -266,7 +267,7 @@
 
 </li>
 </ul>
-<h5 id="Encoding-categorical-features"><a href="#Encoding-categorical-features" class="headerlink" title="Encoding categorical features"></a>Encoding categorical features</h5><ul>
+<h5 id="独热编码Encoding-categorical-features"><a href="#独热编码Encoding-categorical-features" class="headerlink" title="独热编码Encoding categorical features"></a>独热编码Encoding categorical features</h5><ul>
 <li>preprocessing.OrdinalEncoder()</li>
 <li>preprocessing.OneHotEncoder()</li>
 </ul>
@@ -437,7 +438,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/03/03/Python%20EDA%E5%92%8C%E5%8F%AF%E8%A7%86%E5%8C%96%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B/" class="post-title-link" itemprop="url">Python EDA和可视化简单示例</a>
+            <a href="/2020/03/03/Python%20EDA%E5%92%8C%E5%8F%AF%E8%A7%86%E5%8C%96%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B/" class="post-title-link" itemprop="url">Python - EDA和可视化简单示例</a>
         </h1>
 
         <div class="post-meta">
@@ -454,7 +455,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-09 17:09:45" itemprop="dateModified" datetime="2020-03-09T17:09:45+08:00">2020-03-09</time>
+                <time title="Modified: 2020-03-10 18:06:40" itemprop="dateModified" datetime="2020-03-10T18:06:40+08:00">2020-03-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -479,8 +480,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>在做竞赛时，有一个厉害的模型能让我们获得高分，但除此之外，有一个不可被忽视的工作，那就是数据预处理（preprocessing）。对数据集进行缺失值补全、探索、做特征，找到变量与变量之间的关系，预处理是一个费时耗力且需要经验积累的工作，但是，一个好的预处理会使模型的效果事半功倍。</p>
-<p>波士顿房价数据集是回归问题的经典数据集，本文用的是13列的小数据集，用Python对其进行了一些基础的数据处理和可视化操作，简单探索了数据规律和模型的应用。</p>
+          <p>在做竞赛时，有一个厉害的模型能让我们提高分数，但除此之外，有一个不可被忽视的工作，那就是数据预处理（preprocessing）。对数据集进行数据清洗和特征工程是一个显示数据处理功力 的工作，它费时耗力且需要经验积累。一个好的预处理会使模型的效果事半功倍。<br>波士顿房价数据集是回归问题的经典数据集，本文用的是13列的小数据集，用Python对其进行了一些基础的数据处理和可视化操作，简单探索了数据规律和模型的应用。</p>
 <h4 id="数据集导入和简单观察"><a href="#数据集导入和简单观察" class="headerlink" title="数据集导入和简单观察"></a>数据集导入和简单观察</h4><p>导入数据集后，先大致了解数据集构成、相关信息。下面是一些常规的观察操作，可以选择需要的使用。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#导入必要的包</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd               <span class="comment"># 导入Python的数据处理库pandas</span></span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns             <span class="comment"># 导入python高级数据可视化库seaborn</span></span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt   <span class="comment"># 导入python绘图matplotlib</span></span><br><span class="line">%matplotlib inline </span><br><span class="line"></span><br><span class="line">df = pd.read_csv(<span class="string">'boston_house_price_english.csv'</span>) <span class="comment">#导入数据集，也可以用sklearn导入</span></span><br><span class="line">df.head()       <span class="comment"># 前5行</span></span><br><span class="line">df.shape        <span class="comment"># 行列数</span></span><br><span class="line">df.info()		<span class="comment"># 特征信息</span></span><br><span class="line">df.describe()	<span class="comment"># 数值特征的基本统计学信息，如最大值最小值方差等</span></span><br></pre></td></tr></table></figure>
 <h5 id="特征名称及解释"><a href="#特征名称及解释" class="headerlink" title="特征名称及解释"></a>特征名称及解释</h5><ul>
@@ -500,7 +500,14 @@
 <li>MEDV: Median value of owner-occupied homes in $1000’s 业主自住房屋中值</li>
 </ul>
 <h4 id="数据探索性分析EDA和可视化"><a href="#数据探索性分析EDA和可视化" class="headerlink" title="数据探索性分析EDA和可视化"></a>数据探索性分析EDA和可视化</h4><h5 id="查看缺失值"><a href="#查看缺失值" class="headerlink" title="查看缺失值"></a>查看缺失值</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.isnull().any().sum()		<span class="comment"># 看是否有缺失值</span></span><br></pre></td></tr></table></figure>
-<p>输出是0，这份小的数据集是没有缺失值的。关于缺失值的处理也有一些讲究，可以用其他数据集或者波士顿房价的大数据集再写一篇。</p>
+<p>输出是0，这份小的数据集是没有缺失值的。<br>当出现缺失值时，先观察缺失值比例，占比较大的列可以考虑删去。缺失值一般以三种形式存在：NA/NULL/‘ ‘。重要特征的缺失值有时会转化成binary处理，但只限于是否缺失为重要信息的特征。一般的缺失值填充有以下方法：</p>
+<ul>
+<li>数值型特征：可以用 均值/最大值/最小值/众数 填充</li>
+<li>时间序列特征：例如苹果今天的价格缺失，可以用昨日的价格填充</li>
+<li>将缺失值归为一类：可以用不曾出现也不会出现的值，比如：缺失年龄用 999 填充，缺失体重用 -1 填充</li>
+<li>缺失比例小的连续变量：可用有数值的数据进行对缺失值的回归预测填充，例：班上某同学的身高</li>
+</ul>
+<p>填充缺失值是没有固定方法的，需要根据不同的应用场景实际判断。</p>
 <h5 id="查看相关性"><a href="#查看相关性" class="headerlink" title="查看相关性"></a>查看相关性</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.corr					<span class="comment"># 特征之间的相关性</span></span><br></pre></td></tr></table></figure>
 <p><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/bhRzIL1Ek8GP*cA*Bielq8oA851GMz2Gl.Wk0igLlAQ6MXY03t5PPl2j4smknDIaoPLimCMQfEDmkUmY5KDvTQ!!/b&bo=ZQUuAgAAAAADB24!&rf=viewer_4" alt="img02-corr"></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.heatmap(df.corr(),square=<span class="literal">True</span>,annot=<span class="literal">True</span>,cmap=<span class="string">'YlGnBu'</span>) <span class="comment"># 也可以用热力图表示</span></span><br></pre></td></tr></table></figure>
@@ -512,7 +519,7 @@
 <blockquote>
 <p><a href="https://github.com/scikit-learn/scikit-learn/blob/b194674c4/sklearn/feature_selection/_univariate_selection.py#L451" target="_blank" rel="noopener">SelectKBest的官方源码</a></p>
 </blockquote>
-<p>输出为<code>Index([&#39;RM&#39;, &#39;PTRATIO&#39;, &#39;LSTAT&#39;], dtype=&#39;object&#39;)</code>。此时，可以单独对这几个变量做特征，具体做法因项目和实际需要而定，这里不做具体展开。</p>
+<p>输出为<code>Index([&#39;RM&#39;, &#39;PTRATIO&#39;, &#39;LSTAT&#39;], dtype=&#39;object&#39;)</code>。此时，可以单独对这几个变量做特征，具体做法因项目和实际需要而定，这里不做具体展开。其他用sklearn进行数据处理的方法可参考：<a href="https://sparkmon.github.io/2020/03/09/%E5%85%B3%E4%BA%8E%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9%E5%92%8C%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86/" target="_blank" rel="noopener">sklearn进行特征选择和数据预处理</a>。</p>
 <h4 id="模型应用"><a href="#模型应用" class="headerlink" title="模型应用"></a>模型应用</h4><p>关于如何对特征进行整合处理，其实有很多做法，例如分箱、独热编码、归一化等等。在这里，只简单套用一下线性回归和随机森林两个模型，跑出结果。</p>
 <h5 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 分出数据和标签</span></span><br><span class="line">X = df.drop([<span class="string">'MEDV'</span>], axis=<span class="number">1</span>).values <span class="comment"># 数据</span></span><br><span class="line">y = df[<span class="string">'MEDV'</span>].values <span class="comment"># 标签</span></span><br><span class="line"><span class="comment"># 调用模型</span></span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LinearRegression</span><br><span class="line">X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=<span class="number">0.2</span>,random_state=<span class="number">888</span>)</span><br><span class="line"><span class="comment"># 确认训练集和数据集形状</span></span><br><span class="line">X_train.shape</span><br><span class="line">y_train.shape</span><br><span class="line"><span class="comment"># 实例化模型</span></span><br><span class="line">lin_reg = LinearRegression()</span><br><span class="line"><span class="comment"># 训练</span></span><br><span class="line">lin_reg.fit(X_train,y_train)</span><br><span class="line"><span class="comment"># 查看分数</span></span><br><span class="line">lin_reg.score(X,y) <span class="comment"># 0.738792</span></span><br></pre></td></tr></table></figure>
 <p>此时模型已经完成了，可以用<code>lin_reg.coef_</code>查看估计的线性方程系数。也可以用测试集看效果。</p>
