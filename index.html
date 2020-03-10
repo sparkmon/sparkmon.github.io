@@ -134,6 +134,16 @@
     <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
 
   </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
         <li class="menu-item menu-item-archives">
 
     <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
@@ -165,6 +175,63 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/10/pagetags/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="sparkmon">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sparkmon.AI">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/10/pagetags/" class="post-title-link" itemprop="url">pagetags</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-03-10 09:39:49" itemprop="dateCreated datePublished" datetime="2020-03-10T09:39:49+08:00">2020-03-10</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/09/%E5%85%B3%E4%BA%8E%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9%E5%92%8C%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -188,10 +255,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-03-09 16:57:00 / Modified: 17:04:18" itemprop="dateCreated datePublished" datetime="2020-03-09T16:57:00+08:00">2020-03-09</time>
+              <time title="Created: 2020-03-09 16:57:00" itemprop="dateCreated datePublished" datetime="2020-03-09T16:57:00+08:00">2020-03-09</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-03-10 10:20:59" itemprop="dateModified" datetime="2020-03-10T10:20:59+08:00">2020-03-10</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -219,6 +292,7 @@
 <h5 id="删除低方差特征"><a href="#删除低方差特征" class="headerlink" title="删除低方差特征"></a>删除低方差特征</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.feature_selection <span class="keyword">import</span> VarianceThreshold</span><br><span class="line">X = [[<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>],[<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>],[<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>],[<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>]]</span><br><span class="line">sel = VarianceThreshold(threshold=(<span class="number">.8</span> * (<span class="number">1</span><span class="number">-.8</span>)))</span><br><span class="line">sel.fit_transform(X)</span><br></pre></td></tr></table></figure>
 <p>此时的数组已经删除方差不满足threshold的那一列特征。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">array([[0, 1],</span><br><span class="line">       [1, 0],</span><br><span class="line">       [0, 0],</span><br><span class="line">       [1, 1],</span><br><span class="line">       [1, 0],</span><br><span class="line">       [1, 1]])</span><br></pre></td></tr></table></figure>
+<p>用threshold筛选低方差一般选取1.5~2.0。</p>
 <h5 id="单变量特征选择"><a href="#单变量特征选择" class="headerlink" title="单变量特征选择"></a>单变量特征选择</h5><ul>
 <li>SelectKBest 保留评分最高的K个特征</li>
 <li>SelectPercentile 保留最高得分百分比之几的特征</li>
@@ -283,7 +357,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/03/%E3%80%8A%E7%AE%97%E6%B3%95%E5%9B%BE%E8%A7%A3%E3%80%8BGrokking-algorithms%EF%BC%88%E4%B8%80%EF%BC%89/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/03/%E3%80%8A%E7%AE%97%E6%B3%95%E5%9B%BE%E8%A7%A3%E3%80%8BGrokking-algorithms%EF%BC%88%E4%B8%8A%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -297,7 +371,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/03/03/%E3%80%8A%E7%AE%97%E6%B3%95%E5%9B%BE%E8%A7%A3%E3%80%8BGrokking-algorithms%EF%BC%88%E4%B8%80%EF%BC%89/" class="post-title-link" itemprop="url">《算法图解》Grokking algorithms（一）</a>
+            <a href="/2020/03/03/%E3%80%8A%E7%AE%97%E6%B3%95%E5%9B%BE%E8%A7%A3%E3%80%8BGrokking-algorithms%EF%BC%88%E4%B8%8A%EF%BC%89/" class="post-title-link" itemprop="url">《算法图解》Grokking algorithms（上）</a>
         </h1>
 
         <div class="post-meta">
@@ -306,10 +380,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-03-03 15:48:06 / Modified: 16:08:12" itemprop="dateCreated datePublished" datetime="2020-03-03T15:48:06+08:00">2020-03-03</time>
+              <time title="Created: 2020-03-03 15:48:06" itemprop="dateCreated datePublished" datetime="2020-03-03T15:48:06+08:00">2020-03-03</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-03-10 10:49:57" itemprop="dateModified" datetime="2020-03-10T10:49:57+08:00">2020-03-10</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -333,7 +413,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="《算法图解》Grokking-algorithms（一）"><a href="#《算法图解》Grokking-algorithms（一）" class="headerlink" title="《算法图解》Grokking algorithms（一）"></a>《算法图解》Grokking algorithms（一）</h2><blockquote>
+          <h2 id="《算法图解》Grokking-algorithms（上）"><a href="#《算法图解》Grokking-algorithms（上）" class="headerlink" title="《算法图解》Grokking algorithms（上）"></a>《算法图解》Grokking algorithms（上）</h2><blockquote>
 <p>最近被斌叔推荐的一本算法入门书籍，简洁精巧地讲了十几个常用算法，“像小说一样有趣”。它使我能更轻松地理解编程中的常用算法思想，我在这里分享其中的知识点和代码，原书中使用的是python2.7，我使用的是python3.6。文中插图均为原书中的配图，生动形象，同时这本书的github链接：<a href="https://github.com/egonschiele/grokking_algorithms" target="_blank" rel="noopener">https://github.com/egonschiele/grokking_algorithms</a></p>
 </blockquote>
 <p>这本书的第一章介绍了第一种算法——二分查找和大O表示法。大O表示法指出了算法的运行时间，算法运行时间并不以秒为单位而是从其增速的角度来衡量。在第四章中介绍了平均情况和最糟情况。</p>
@@ -1139,17 +1219,19 @@ LeNet-5诞生于 1994 年，由Yann LeCun等人提出，是最早的卷积神经
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
+          
         <span class="site-state-item-count">1</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
+          
         <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
