@@ -175,6 +175,92 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/13/%E5%91%98%E5%B7%A5%E7%A6%BB%E8%81%8C%E9%A2%84%E6%B5%8B%E8%AE%AD%E7%BB%83%E8%B5%9B-DC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="sparkmon">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sparkmon.AI">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/13/%E5%91%98%E5%B7%A5%E7%A6%BB%E8%81%8C%E9%A2%84%E6%B5%8B%E8%AE%AD%E7%BB%83%E8%B5%9B-DC/" class="post-title-link" itemprop="url">员工离职预测训练赛-DC</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-03-13 09:21:35 / Modified: 21:42:01" itemprop="dateCreated datePublished" datetime="2020-03-13T09:21:35+08:00">2020-03-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AB%9E%E8%B5%9B%E7%BB%83%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">竞赛练习</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="比赛介绍"><a href="#比赛介绍" class="headerlink" title="比赛介绍"></a>比赛介绍</h4><h5 id="数据集"><a href="#数据集" class="headerlink" title="数据集"></a>数据集</h5><p>本数据集来源于<a href="https://www.dcjingsai.com/common/cmpt/%E5%91%98%E5%B7%A5%E7%A6%BB%E8%81%8C%E9%A2%84%E6%B5%8B%E8%AE%AD%E7%BB%83%E8%B5%9B_%E8%B5%9B%E4%BD%93%E4%B8%8E%E6%95%B0%E6%8D%AE.html" target="_blank" rel="noopener">DC竞赛平台</a>。数据主要包括影响员工离职的各种因素（工资、出差、工作环境满意度、工作投入度、是否加班、是否升职、工资提升比例等）以及员工是否已经离职的对应记录。</p>
+<p>其中训练数据主要包括1100条记录，31个字段，测试数据主要包括350条记录，30个字段，测试数据不包括员工是否已经离职的记录，要求使用逻辑回归等对员工离职进行预测。（注：比赛所用到的数据取自于IBM Watson Analytics分析平台分享的样例数据。该平台只选取了其中的子集，并对数据做了一些预处理使数据更加符合逻辑回归分析比赛的要求。）</p>
+<h5 id="评测标准"><a href="#评测标准" class="headerlink" title="评测标准"></a>评测标准</h5><p>使用混淆矩阵来评价模型的准确率acc。<br>acc = （TP+TN)/(TP+FP+FN+TN)</p>
+<h4 id="数据分析和预处理"><a href="#数据分析和预处理" class="headerlink" title="数据分析和预处理"></a>数据分析和预处理</h4><p>首先观察数据类型<code>train.info()</code>、<code>test.info()</code>。可以看到既有int也有object，要对他们进行分别处理。当然，有时候int其实也代表着离散变量，可当作object处理。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train.describe()</span><br></pre></td></tr></table></figure>
+<p>查看数字型参数。其中，<code>EmployeeNumber</code>列是没有意义的参数，可以删去。同时，可以发现<code>Over18</code>和<code>StandardHours</code>中的元素全部相同，也删去。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">train[<span class="string">'Over18'</span>].unique() <span class="comment"># 输出array(['Y'], dtype=object)，只含一种元素，'StandardHours'同理</span></span><br><span class="line"><span class="comment"># 对训练集和测试集一起进行数据处理</span></span><br><span class="line">test[<span class="string">'Attrition'</span>]=<span class="number">-1</span></span><br><span class="line">data = train.append(test).reset_index(drop=<span class="literal">True</span>) <span class="comment"># data即为训练集+测试集</span></span><br><span class="line"><span class="comment"># 删除没有意义的列</span></span><br><span class="line">data.drop([<span class="string">'Over18'</span>, <span class="string">'StandardHours'</span>,<span class="string">'EmployeeNumber'</span>], axis=<span class="number">1</span>, inplace=<span class="literal">True</span>) </span><br><span class="line"><span class="comment"># 筛选出类别特征</span></span><br><span class="line">feat_col = [i <span class="keyword">for</span> i <span class="keyword">in</span> data.select_dtypes(object).columns <span class="keyword">if</span> i <span class="keyword">not</span> <span class="keyword">in</span> [<span class="string">'Attrition'</span>]]</span><br></pre></td></tr></table></figure>
+<p>可以看到现在的object列为<code>[&#39;BusinessTravel&#39;, &#39;Department&#39;, &#39;EducationField&#39;, &#39;Gender&#39;, &#39;JobRole&#39;, &#39;MaritalStatus&#39;, &#39;OverTime&#39;]</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 自定义one-hot</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encode_onehot</span><span class="params">(df,column_name)</span>:</span></span><br><span class="line">    feature_df=pd.get_dummies(df[column_name], prefix=column_name)</span><br><span class="line">    all_col = pd.concat([df.drop([column_name], axis=<span class="number">1</span>),feature_df], axis=<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> all_col</span><br><span class="line"><span class="comment"># 对类别特征进行one-hot </span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> cat_col:</span><br><span class="line">    data = encode_onehot(data,i)</span><br><span class="line"><span class="comment"># 使用LR需要对所有参数进行归一化</span></span><br><span class="line">max_min_scaler = <span class="keyword">lambda</span> x : (x-np.min(x))/(np.max(x)-np.min(x))</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> feats:</span><br><span class="line">    data[i]=data[[i]].apply(max_min_scaler)</span><br><span class="line">    </span><br><span class="line">data.isnull().sum() <span class="comment"># 确认数据没有空值</span></span><br></pre></td></tr></table></figure>
+<p>此时再打印data可以看到所有数据都被转化成了[0,1]之间的浮点数。</p>
+<h4 id="建模及预测"><a href="#建模及预测" class="headerlink" title="建模及预测"></a>建模及预测</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 重新分割出train和test</span></span><br><span class="line">X_train = data[data[<span class="string">'Attrition'</span>] !=<span class="number">-1</span>][feats]</span><br><span class="line">y_train = data[data[<span class="string">'Attrition'</span>] !=<span class="number">-1</span>][<span class="string">'Attrition'</span>]</span><br><span class="line">X_test = data[data[<span class="string">'Attrition'</span>] ==<span class="number">-1</span>][feats]</span><br><span class="line"><span class="comment"># 训练模型</span></span><br><span class="line">lr_model = LogisticRegression()</span><br><span class="line">lr_model.fit(X_train,y_train)</span><br><span class="line">pre = lr_pre.predict(X_test)</span><br><span class="line">result = pd.DataFrame(&#123;<span class="string">'result'</span>:pre.astype(int)&#125;) <span class="comment"># 比赛要求整型</span></span><br><span class="line">result.to_csv(path+<span class="string">'output/new_lr'</span>,index=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+<p>逻辑回归单模simple版得分0.89428。可以做更进一步的分析处理。</p>
+<h4 id="进一步提升"><a href="#进一步提升" class="headerlink" title="进一步提升"></a>进一步提升</h4><p>之前也简单写过数据清洗和特征工程对于一个模型的优劣有着重要的影响，下面就来看一下效果。</p>
+<h5 id="Solution1：特征提取"><a href="#Solution1：特征提取" class="headerlink" title="Solution1：特征提取"></a>Solution1：特征提取</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 绘制特征相关性图</span></span><br><span class="line">corr = data.corr()</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line">%matplotlib inline</span><br><span class="line">plt.style.use(&#123;<span class="string">'figure.figsize'</span>:(<span class="number">10</span>,<span class="number">8</span>)&#125;)</span><br><span class="line"></span><br><span class="line">sns.heatmap(corr, xticklabels=corr.columns.values, yticklabels=corr.columns.values,cmap=<span class="string">"YlGnBu"</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/bhRzIL1Ek8GP*cA*Bielq8joUUvj*SQIllOqZQxSQCziovXj08g9zjLcEEfrI24VggrUNY*MTwI5p4Fhx2Cnrg!!/b&bo=0QMZAwAAAAADB.o!&rf=viewer_4" alt="heatmap"><br>可以看到<code>MonthlyIncome</code>和<code>JobLevel</code>高度相关，<code>TotalWorkingYears</code>和多个特征都较相关，故尝试删除<code>JobLevel</code>和<code>TotalWorkingYears</code>。</p>
+<h5 id="Solution2：交叉验证"><a href="#Solution2：交叉验证" class="headerlink" title="Solution2：交叉验证"></a>Solution2：交叉验证</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> KFold</span><br><span class="line">model=LogisticRegression()</span><br><span class="line">n_splits=<span class="number">5</span></span><br><span class="line">kfold = KFold(n_splits=<span class="number">5</span>, shuffle=<span class="literal">True</span>, random_state=<span class="number">42</span>)</span><br><span class="line">res[<span class="string">'pred'</span>] = <span class="number">0</span></span><br><span class="line">model.random_state = <span class="number">42</span></span><br><span class="line"><span class="keyword">for</span> train_idx, val_idx <span class="keyword">in</span> kfold.split(X_train):</span><br><span class="line">    model.random_state = model.random_state + <span class="number">1</span></span><br><span class="line">    train_x1 = X_train.loc[train_idx]</span><br><span class="line">    train_y1 = y_train.loc[train_idx]</span><br><span class="line">    test_x1 = X_train.loc[val_idx]</span><br><span class="line">    test_y1 = y_train.loc[val_idx]</span><br><span class="line">    model.fit(train_x1, train_y1) </span><br><span class="line">    result = model.predict(X_test)</span><br></pre></td></tr></table></figure>
+<p>结合Solution1和2得分为0.905714（96/2816）。</p>
+<h5 id="Solution3：模型融合"><a href="#Solution3：模型融合" class="headerlink" title="Solution3：模型融合"></a>Solution3：模型融合</h5>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E6%9C%AC%E7%AE%97%E6%B3%952-XGBoost/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1238,14 +1324,14 @@ LeNet-5诞生于 1994 年，由Yann LeCun等人提出，是最早的卷积神经
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
