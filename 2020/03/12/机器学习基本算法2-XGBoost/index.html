@@ -46,12 +46,12 @@
   };
 </script>
 
-  <meta name="description" content="突然发现XGBoost好像不能算是基本算法，不过也姑且整理再这里了。本文详细梳理陈天奇PPT（Introduction to Boosted Trees）。  背景需要的预备知识：CART回归树算法，梯度下降法及泰勒公式。看预备知识就可以知道，XGBoost（eXtreme Gradient Boosting）由GBDT发展而来，是一种基于树模型的集成算法。目前在各大比赛场上斩杀无数其他算法，现">
+  <meta name="description" content="突然发现XGBoost好像不能算是基本算法，不过也姑且整理再这里了。本文详细梳理陈天奇PPT（Introduction to Boosted Trees），有些长。  背景需要的预备知识：CART回归树算法，梯度下降法及泰勒公式。看预备知识就可以知道，XGBoost（eXtreme Gradient Boosting）由GBDT发展而来，是一种基于树模型的集成算法。目前在各大比赛场上斩杀无数其他">
 <meta property="og:type" content="article">
 <meta property="og:title" content="机器学习基本算法2-XGBoost">
 <meta property="og:url" content="http://yoursite.com/2020/03/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E6%9C%AC%E7%AE%97%E6%B3%952-XGBoost/index.html">
 <meta property="og:site_name" content="Sparkmon.AI">
-<meta property="og:description" content="突然发现XGBoost好像不能算是基本算法，不过也姑且整理再这里了。本文详细梳理陈天奇PPT（Introduction to Boosted Trees）。  背景需要的预备知识：CART回归树算法，梯度下降法及泰勒公式。看预备知识就可以知道，XGBoost（eXtreme Gradient Boosting）由GBDT发展而来，是一种基于树模型的集成算法。目前在各大比赛场上斩杀无数其他算法，现">
+<meta property="og:description" content="突然发现XGBoost好像不能算是基本算法，不过也姑且整理再这里了。本文详细梳理陈天奇PPT（Introduction to Boosted Trees），有些长。  背景需要的预备知识：CART回归树算法，梯度下降法及泰勒公式。看预备知识就可以知道，XGBoost（eXtreme Gradient Boosting）由GBDT发展而来，是一种基于树模型的集成算法。目前在各大比赛场上斩杀无数其他">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://m.qpic.cn/psc?/V137jDuM1f0sL3/bhRzIL1Ek8GP*cA*Bielq8aUvd8fi3uOL9f6msdA3uMJliP4AOdDONCd2rtp2LdHGZ7ZPAxi6gA2q*sPv1fSsQ!!/b&bo=iAQ3AwAAAAADB5o!&rf=viewer_4">
 <meta property="og:image" content="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvURz0G4YEcORB0Z64BFjMu8KOxxoEdCJiYOMuy5tHhlCphILqLJFzCXUVCDQK7mdBcdcxW07stmn39YN32JnMi.I!/b&bo=zQO8AgAAAAADF0I!&rf=viewer_4">
@@ -63,7 +63,7 @@
 <meta property="og:image" content="http://m.qpic.cn/psc?/V137jDuM1f0sL3/bhRzIL1Ek8GP*cA*Bielq53rKRXvnkm*SHGcoRkty219GHi*YfZAf5REh*7IMaEZsoZ6LR5hLYjaKI6j7c96bQ!!/b&bo=7gOnAgAAAAADB2o!&rf=viewer_4">
 <meta property="og:image" content="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUVmJW7kUhKVJUj4m3kV7dnqv1H7fU*.EQOgP4XAnXPEOrSm7*kpqvecZ1BlILps4fWmB*GBLetSGLawQDI8k3ak!/b&bo=7QOyAgAAAAADF2w!&rf=viewer_4">
 <meta property="article:published_time" content="2020-03-12T04:15:56.000Z">
-<meta property="article:modified_time" content="2020-03-26T11:40:43.441Z">
+<meta property="article:modified_time" content="2020-03-26T11:45:10.256Z">
 <meta property="article:author" content="sparkmon">
 <meta property="article:tag" content="机器学习">
 <meta name="twitter:card" content="summary">
@@ -220,7 +220,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-26 19:40:43" itemprop="dateModified" datetime="2020-03-26T19:40:43+08:00">2020-03-26</time>
+                <time title="Modified: 2020-03-26 19:45:10" itemprop="dateModified" datetime="2020-03-26T19:45:10+08:00">2020-03-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -246,15 +246,15 @@
 
       
         <blockquote>
-<p>突然发现XGBoost好像不能算是基本算法，不过也姑且整理再这里了。本文详细梳理陈天奇PPT（Introduction to Boosted Trees）。</p>
+<p>突然发现XGBoost好像不能算是基本算法，不过也姑且整理再这里了。本文详细梳理陈天奇PPT（Introduction to Boosted Trees），有些长。</p>
 </blockquote>
 <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>需要的预备知识：CART回归树算法，梯度下降法及泰勒公式。<br>看预备知识就可以知道，XGBoost（eXtreme Gradient Boosting）由GBDT发展而来，是一种基于树模型的集成算法。目前在各大比赛场上斩杀无数其他算法，现在已经是数据挖掘的比赛必备。</p>
 <h3 id="算法简述"><a href="#算法简述" class="headerlink" title="算法简述"></a>算法简述</h3><blockquote>
 <p>陈天奇的PPT对于算法的解释十分详细，简述基于PPT。</p>
 </blockquote>
 <h4 id="Review-of-key-concepts-of-supervised-learning-回顾监督学习的关键概念"><a href="#Review-of-key-concepts-of-supervised-learning-回顾监督学习的关键概念" class="headerlink" title="Review of key concepts of supervised learning | 回顾监督学习的关键概念"></a>Review of key concepts of supervised learning | 回顾监督学习的关键概念</h4><figure class="half">
-    <img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/bhRzIL1Ek8GP*cA*Bielq8aUvd8fi3uOL9f6msdA3uMJliP4AOdDONCd2rtp2LdHGZ7ZPAxi6gA2q*sPv1fSsQ!!/b&bo=iAQ3AwAAAAADB5o!&rf=viewer_4" width="390"/>
-    <img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvURz0G4YEcORB0Z64BFjMu8KOxxoEdCJiYOMuy5tHhlCphILqLJFzCXUVCDQK7mdBcdcxW07stmn39YN32JnMi.I!/b&bo=zQO8AgAAAAADF0I!&rf=viewer_4" width="390"/>
+    <img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/bhRzIL1Ek8GP*cA*Bielq8aUvd8fi3uOL9f6msdA3uMJliP4AOdDONCd2rtp2LdHGZ7ZPAxi6gA2q*sPv1fSsQ!!/b&bo=iAQ3AwAAAAADB5o!&rf=viewer_4" width="350"/>
+    <img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvURz0G4YEcORB0Z64BFjMu8KOxxoEdCJiYOMuy5tHhlCphILqLJFzCXUVCDQK7mdBcdcxW07stmn39YN32JnMi.I!/b&bo=zQO8AgAAAAADF0I!&rf=viewer_4" width="350"/>
 </figure>
 
 <ul>
@@ -265,8 +265,8 @@
 <li>损失函数表示模型对训练数据的拟合程度，loss越小，代表模型预测的越准，即偏差Bias越小。</li>
 <li>正则化项衡量模型的复杂度，regularization越小，代表模型模型的复杂度越低，即方差Variance越小。</li>
 <li>目标函数越小，代表模型越好。Bias-variance tradeoff也是一个模型能力的体现。<h4 id=""><a href="#" class="headerlink" title=""></a></h4><h4 id="Regression-Tree-and-Ensemble-What-are-we-Learning"><a href="#Regression-Tree-and-Ensemble-What-are-we-Learning" class="headerlink" title="Regression Tree and Ensemble (What are we Learning)"></a>Regression Tree and Ensemble (What are we Learning)</h4><figure class="half">
-<img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/bhRzIL1Ek8GP*cA*Bielq4JPrYZI8yTyJVVztnQMANAQYoCKXIMPRpYx7EDCo1BLa*gQT4rXnixDTgDYQli0*w!!/b&bo=3QOxAgAAAAADB08!&rf=viewer_4" width="390"/>
-<img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUYp7CFou7YqRTN*YcxTCQJmaqFV5flMpcKX.V1yB.glN0kyw8blao9TLIsy7DS5JyvJLVxdq5Xm.ZiUEddouTEE!/b&bo=.APAAgAAAAADJzs!&rf=viewer_4" width="390"/>
+<img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/bhRzIL1Ek8GP*cA*Bielq4JPrYZI8yTyJVVztnQMANAQYoCKXIMPRpYx7EDCo1BLa*gQT4rXnixDTgDYQli0*w!!/b&bo=3QOxAgAAAAADB08!&rf=viewer_4" width="350"/>
+<img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUYp7CFou7YqRTN*YcxTCQJmaqFV5flMpcKX.V1yB.glN0kyw8blao9TLIsy7DS5JyvJLVxdq5Xm.ZiUEddouTEE!/b&bo=.APAAgAAAAADJzs!&rf=viewer_4" width="350"/>
 </figure>
 ##### 关于树模型集成方法Tree Ensemble methods：</li>
 </ul>
@@ -285,8 +285,8 @@
 <li>不学习权重， 而是学习function，即fK（tree）。</li>
 </ul>
 <figure class="half">
-    <img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/bhRzIL1Ek8GP*cA*BielqzVbsv0oW2e9STWkxLTfcYoeUpJfBRNyLogZd0Kwl4wfLrw6UxzLmevLsXYljnVBJg!!/b&bo=yQPGAgAAAAADByw!&rf=viewer_4" width="390"/>
-    <img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUVVMya5PNaA4gIR4NLOMdy8J5B7CIPreSVd9IoVK3OGaFQAm5DJ3pudqrcHKigZUjuPjENxL3I6I14rr0sR8rXE!/b&bo=2QO6AgAAAAADF1A!&rf=viewer_4" width="390"/>
+    <img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/bhRzIL1Ek8GP*cA*BielqzVbsv0oW2e9STWkxLTfcYoeUpJfBRNyLogZd0Kwl4wfLrw6UxzLmevLsXYljnVBJg!!/b&bo=yQPGAgAAAAADByw!&rf=viewer_4" width="350"/>
+    <img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUVVMya5PNaA4gIR4NLOMdy8J5B7CIPreSVd9IoVK3OGaFQAm5DJ3pudqrcHKigZUjuPjENxL3I6I14rr0sR8rXE!/b&bo=2QO6AgAAAAADF1A!&rf=viewer_4" width="350"/>
 </figure>
 
 <ul>
