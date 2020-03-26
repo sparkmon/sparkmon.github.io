@@ -55,7 +55,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://m.qpic.cn/psc?/V137jDuM1f0sL3/bhRzIL1Ek8GP*cA*Bielq8joUUvj*SQIllOqZQxSQCziovXj08g9zjLcEEfrI24VggrUNY*MTwI5p4Fhx2Cnrg!!/b&bo=0QMZAwAAAAADB.o!&rf=viewer_4">
 <meta property="article:published_time" content="2020-03-13T01:21:35.000Z">
-<meta property="article:modified_time" content="2020-03-13T13:42:01.370Z">
+<meta property="article:modified_time" content="2020-03-16T02:38:43.009Z">
 <meta property="article:author" content="sparkmon">
 <meta property="article:tag" content="机器学习">
 <meta property="article:tag" content="数据分析">
@@ -205,10 +205,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-03-13 09:21:35 / Modified: 21:42:01" itemprop="dateCreated datePublished" datetime="2020-03-13T09:21:35+08:00">2020-03-13</time>
+              <time title="Created: 2020-03-13 09:21:35" itemprop="dateCreated datePublished" datetime="2020-03-13T09:21:35+08:00">2020-03-13</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-03-16 10:38:43" itemprop="dateModified" datetime="2020-03-16T10:38:43+08:00">2020-03-16</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -243,7 +249,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 自定义one-hot</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encode_onehot</span><span class="params">(df,column_name)</span>:</span></span><br><span class="line">    feature_df=pd.get_dummies(df[column_name], prefix=column_name)</span><br><span class="line">    all_col = pd.concat([df.drop([column_name], axis=<span class="number">1</span>),feature_df], axis=<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> all_col</span><br><span class="line"><span class="comment"># 对类别特征进行one-hot </span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> cat_col:</span><br><span class="line">    data = encode_onehot(data,i)</span><br><span class="line"><span class="comment"># 使用LR需要对所有参数进行归一化</span></span><br><span class="line">max_min_scaler = <span class="keyword">lambda</span> x : (x-np.min(x))/(np.max(x)-np.min(x))</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> feats:</span><br><span class="line">    data[i]=data[[i]].apply(max_min_scaler)</span><br><span class="line">    </span><br><span class="line">data.isnull().sum() <span class="comment"># 确认数据没有空值</span></span><br></pre></td></tr></table></figure>
 <p>此时再打印data可以看到所有数据都被转化成了[0,1]之间的浮点数。</p>
 <h4 id="建模及预测"><a href="#建模及预测" class="headerlink" title="建模及预测"></a>建模及预测</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 重新分割出train和test</span></span><br><span class="line">X_train = data[data[<span class="string">'Attrition'</span>] !=<span class="number">-1</span>][feats]</span><br><span class="line">y_train = data[data[<span class="string">'Attrition'</span>] !=<span class="number">-1</span>][<span class="string">'Attrition'</span>]</span><br><span class="line">X_test = data[data[<span class="string">'Attrition'</span>] ==<span class="number">-1</span>][feats]</span><br><span class="line"><span class="comment"># 训练模型</span></span><br><span class="line">lr_model = LogisticRegression()</span><br><span class="line">lr_model.fit(X_train,y_train)</span><br><span class="line">pre = lr_pre.predict(X_test)</span><br><span class="line">result = pd.DataFrame(&#123;<span class="string">'result'</span>:pre.astype(int)&#125;) <span class="comment"># 比赛要求整型</span></span><br><span class="line">result.to_csv(path+<span class="string">'output/new_lr'</span>,index=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
-<p>逻辑回归单模simple版得分0.89428。可以做更进一步的分析处理。</p>
+<p>逻辑回归单个模型simple版得分0.89428。可以做更进一步的分析处理。</p>
 <h4 id="进一步提升"><a href="#进一步提升" class="headerlink" title="进一步提升"></a>进一步提升</h4><p>之前也简单写过数据清洗和特征工程对于一个模型的优劣有着重要的影响，下面就来看一下效果。</p>
 <h5 id="Solution1：特征提取"><a href="#Solution1：特征提取" class="headerlink" title="Solution1：特征提取"></a>Solution1：特征提取</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 绘制特征相关性图</span></span><br><span class="line">corr = data.corr()</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line">%matplotlib inline</span><br><span class="line">plt.style.use(&#123;<span class="string">'figure.figsize'</span>:(<span class="number">10</span>,<span class="number">8</span>)&#125;)</span><br><span class="line"></span><br><span class="line">sns.heatmap(corr, xticklabels=corr.columns.values, yticklabels=corr.columns.values,cmap=<span class="string">"YlGnBu"</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
 <p><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/bhRzIL1Ek8GP*cA*Bielq8joUUvj*SQIllOqZQxSQCziovXj08g9zjLcEEfrI24VggrUNY*MTwI5p4Fhx2Cnrg!!/b&bo=0QMZAwAAAAADB.o!&rf=viewer_4" alt="heatmap"><br>可以看到<code>MonthlyIncome</code>和<code>JobLevel</code>高度相关，<code>TotalWorkingYears</code>和多个特征都较相关，故尝试删除<code>JobLevel</code>和<code>TotalWorkingYears</code>。</p>

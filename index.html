@@ -198,10 +198,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-03-13 09:21:35 / Modified: 21:42:01" itemprop="dateCreated datePublished" datetime="2020-03-13T09:21:35+08:00">2020-03-13</time>
+              <time title="Created: 2020-03-13 09:21:35" itemprop="dateCreated datePublished" datetime="2020-03-13T09:21:35+08:00">2020-03-13</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-03-16 10:38:43" itemprop="dateModified" datetime="2020-03-16T10:38:43+08:00">2020-03-16</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -236,7 +242,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 自定义one-hot</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encode_onehot</span><span class="params">(df,column_name)</span>:</span></span><br><span class="line">    feature_df=pd.get_dummies(df[column_name], prefix=column_name)</span><br><span class="line">    all_col = pd.concat([df.drop([column_name], axis=<span class="number">1</span>),feature_df], axis=<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> all_col</span><br><span class="line"><span class="comment"># 对类别特征进行one-hot </span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> cat_col:</span><br><span class="line">    data = encode_onehot(data,i)</span><br><span class="line"><span class="comment"># 使用LR需要对所有参数进行归一化</span></span><br><span class="line">max_min_scaler = <span class="keyword">lambda</span> x : (x-np.min(x))/(np.max(x)-np.min(x))</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> feats:</span><br><span class="line">    data[i]=data[[i]].apply(max_min_scaler)</span><br><span class="line">    </span><br><span class="line">data.isnull().sum() <span class="comment"># 确认数据没有空值</span></span><br></pre></td></tr></table></figure>
 <p>此时再打印data可以看到所有数据都被转化成了[0,1]之间的浮点数。</p>
 <h4 id="建模及预测"><a href="#建模及预测" class="headerlink" title="建模及预测"></a>建模及预测</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 重新分割出train和test</span></span><br><span class="line">X_train = data[data[<span class="string">'Attrition'</span>] !=<span class="number">-1</span>][feats]</span><br><span class="line">y_train = data[data[<span class="string">'Attrition'</span>] !=<span class="number">-1</span>][<span class="string">'Attrition'</span>]</span><br><span class="line">X_test = data[data[<span class="string">'Attrition'</span>] ==<span class="number">-1</span>][feats]</span><br><span class="line"><span class="comment"># 训练模型</span></span><br><span class="line">lr_model = LogisticRegression()</span><br><span class="line">lr_model.fit(X_train,y_train)</span><br><span class="line">pre = lr_pre.predict(X_test)</span><br><span class="line">result = pd.DataFrame(&#123;<span class="string">'result'</span>:pre.astype(int)&#125;) <span class="comment"># 比赛要求整型</span></span><br><span class="line">result.to_csv(path+<span class="string">'output/new_lr'</span>,index=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
-<p>逻辑回归单模simple版得分0.89428。可以做更进一步的分析处理。</p>
+<p>逻辑回归单个模型simple版得分0.89428。可以做更进一步的分析处理。</p>
 <h4 id="进一步提升"><a href="#进一步提升" class="headerlink" title="进一步提升"></a>进一步提升</h4><p>之前也简单写过数据清洗和特征工程对于一个模型的优劣有着重要的影响，下面就来看一下效果。</p>
 <h5 id="Solution1：特征提取"><a href="#Solution1：特征提取" class="headerlink" title="Solution1：特征提取"></a>Solution1：特征提取</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 绘制特征相关性图</span></span><br><span class="line">corr = data.corr()</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line">%matplotlib inline</span><br><span class="line">plt.style.use(&#123;<span class="string">'figure.figsize'</span>:(<span class="number">10</span>,<span class="number">8</span>)&#125;)</span><br><span class="line"></span><br><span class="line">sns.heatmap(corr, xticklabels=corr.columns.values, yticklabels=corr.columns.values,cmap=<span class="string">"YlGnBu"</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
 <p><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/bhRzIL1Ek8GP*cA*Bielq8joUUvj*SQIllOqZQxSQCziovXj08g9zjLcEEfrI24VggrUNY*MTwI5p4Fhx2Cnrg!!/b&bo=0QMZAwAAAAADB.o!&rf=viewer_4" alt="heatmap"><br>可以看到<code>MonthlyIncome</code>和<code>JobLevel</code>高度相关，<code>TotalWorkingYears</code>和多个特征都较相关，故尝试删除<code>JobLevel</code>和<code>TotalWorkingYears</code>。</p>
@@ -284,10 +290,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-03-12 12:15:56 / Modified: 13:35:06" itemprop="dateCreated datePublished" datetime="2020-03-12T12:15:56+08:00">2020-03-12</time>
+              <time title="Created: 2020-03-12 12:15:56" itemprop="dateCreated datePublished" datetime="2020-03-12T12:15:56+08:00">2020-03-12</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-03-26 19:40:43" itemprop="dateModified" datetime="2020-03-26T19:40:43+08:00">2020-03-26</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -311,7 +323,122 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          
+          <blockquote>
+<p>突然发现XGBoost好像不能算是基本算法，不过也姑且整理再这里了。本文详细梳理陈天奇PPT（Introduction to Boosted Trees）。</p>
+</blockquote>
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>需要的预备知识：CART回归树算法，梯度下降法及泰勒公式。<br>看预备知识就可以知道，XGBoost（eXtreme Gradient Boosting）由GBDT发展而来，是一种基于树模型的集成算法。目前在各大比赛场上斩杀无数其他算法，现在已经是数据挖掘的比赛必备。</p>
+<h3 id="算法简述"><a href="#算法简述" class="headerlink" title="算法简述"></a>算法简述</h3><blockquote>
+<p>陈天奇的PPT对于算法的解释十分详细，简述基于PPT。</p>
+</blockquote>
+<h4 id="Review-of-key-concepts-of-supervised-learning-回顾监督学习的关键概念"><a href="#Review-of-key-concepts-of-supervised-learning-回顾监督学习的关键概念" class="headerlink" title="Review of key concepts of supervised learning | 回顾监督学习的关键概念"></a>Review of key concepts of supervised learning | 回顾监督学习的关键概念</h4><figure class="half">
+    <img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/bhRzIL1Ek8GP*cA*Bielq8aUvd8fi3uOL9f6msdA3uMJliP4AOdDONCd2rtp2LdHGZ7ZPAxi6gA2q*sPv1fSsQ!!/b&bo=iAQ3AwAAAAADB5o!&rf=viewer_4" width="390"/>
+    <img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvURz0G4YEcORB0Z64BFjMu8KOxxoEdCJiYOMuy5tHhlCphILqLJFzCXUVCDQK7mdBcdcxW07stmn39YN32JnMi.I!/b&bo=zQO8AgAAAAADF0I!&rf=viewer_4" width="390"/>
+</figure>
+
+<ul>
+<li>Model|模型：如何用xi来预测yi_hat。对于线性模型来说，预测值yi_hat基于不同的任务有不同的计算。</li>
+<li>Parameters|参数：从数据中学得。</li>
+<li>Objective function|目标函数：由训练误差（损失函数）training loss和正则化项Regularization组成。训练误差有平方误差和交叉熵损失函数；正则化项有L1和L2。<br>其中，线性回归模型加L2正则是Ridge regression，线性回归模型加L1正则是Lasso，逻辑回归模型加L2正则。</li>
+<li>The conceptual separation between model, parameter, objective also gives you <strong>engineering benefits</strong>。<ul>
+<li>损失函数表示模型对训练数据的拟合程度，loss越小，代表模型预测的越准，即偏差Bias越小。</li>
+<li>正则化项衡量模型的复杂度，regularization越小，代表模型模型的复杂度越低，即方差Variance越小。</li>
+<li>目标函数越小，代表模型越好。Bias-variance tradeoff也是一个模型能力的体现。<h4 id=""><a href="#" class="headerlink" title=""></a></h4><h4 id="Regression-Tree-and-Ensemble-What-are-we-Learning"><a href="#Regression-Tree-and-Ensemble-What-are-we-Learning" class="headerlink" title="Regression Tree and Ensemble (What are we Learning)"></a>Regression Tree and Ensemble (What are we Learning)</h4><figure class="half">
+<img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/bhRzIL1Ek8GP*cA*Bielq4JPrYZI8yTyJVVztnQMANAQYoCKXIMPRpYx7EDCo1BLa*gQT4rXnixDTgDYQli0*w!!/b&bo=3QOxAgAAAAADB08!&rf=viewer_4" width="390"/>
+<img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUYp7CFou7YqRTN*YcxTCQJmaqFV5flMpcKX.V1yB.glN0kyw8blao9TLIsy7DS5JyvJLVxdq5Xm.ZiUEddouTEE!/b&bo=.APAAgAAAAADJzs!&rf=viewer_4" width="390"/>
+</figure>
+##### 关于树模型集成方法Tree Ensemble methods：</li>
+</ul>
+</li>
+<li>Very widely used, look for GBM, random forest…<br>被广泛使用<ul>
+<li>Almost half of data mining competition are won by using some variants of tree ensemble methods<br>接近半数数据挖掘比赛冠军队使用树集成方法</li>
+</ul>
+</li>
+<li>Invariant to scaling of inputs, so you do not need to do careful features normalization.<br>和输入数据的取值范围无关，所以无需做很细致的特征归一化</li>
+<li>Learn higher order interaction between features.<br>能学习到高位特征的相关性</li>
+<li>Can be scalable, and are used in Industry<br>扩展性好，工业使用</li>
+</ul>
+<p><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/bhRzIL1Ek8GP*cA*BielqyLNEPSaLQbr8tF7U38qMmeMJ*AZ7.YTspE3E9TTqFP*l6O1hmv*AFZOJ47LoSPu7w!!/b&bo=0gOzAgAAAAADB0I!&rf=viewer_4" alt="img"></p>
+<ul>
+<li>yi_hat由所有树模型决定，模型复杂度space of function包含所有回归树。</li>
+<li>不学习权重， 而是学习function，即fK（tree）。</li>
+</ul>
+<figure class="half">
+    <img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/bhRzIL1Ek8GP*cA*BielqzVbsv0oW2e9STWkxLTfcYoeUpJfBRNyLogZd0Kwl4wfLrw6UxzLmevLsXYljnVBJg!!/b&bo=yQPGAgAAAAADByw!&rf=viewer_4" width="390"/>
+    <img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUVVMya5PNaA4gIR4NLOMdy8J5B7CIPreSVd9IoVK3OGaFQAm5DJ3pudqrcHKigZUjuPjENxL3I6I14rr0sR8rXE!/b&bo=2QO6AgAAAAADF1A!&rf=viewer_4" width="390"/>
+</figure>
+
+<ul>
+<li>决策树具有启发式思想。用信息增益决定分裂节点，减少损失。</li>
+<li>树的剪枝，最大深度以及叶节点权重都会影响模型复杂度。对树进行剪枝，对叶节点的权重进行L2正则化能减少模型复杂度，提高模型稳定性。</li>
+<li>回归树不仅可以解决回归问题，还能做分类、排序问题，这取决于你的目标函数。例如平方误差和交叉熵损失函数。</li>
+</ul>
+<h4 id="-1"><a href="#-1" class="headerlink" title=""></a></h4><h4 id="Gradient-Boosting-How-do-we-Learn"><a href="#Gradient-Boosting-How-do-we-Learn" class="headerlink" title="Gradient Boosting (How do we Learn)"></a>Gradient Boosting (How do we Learn)</h4><ul>
+<li>Bias-variance tradeoff is everywhere<br>偏差方差均衡无处不在</li>
+<li>The loss + regularization objective pattern applies for regression tree learning (function learning)<br>损失函数+正则的目标函数模式适用于回归树的学习</li>
+<li>We want predictive and simple functions<br>我们需要泛化能力强又简单的模型（奥卡姆剃刀原则）</li>
+</ul>
+<p>来求解优化一下目标函数，感受一下算法的精华。<br>和一般Boosting方法一样，采用加性模型，并考虑平方差损失，引入泰勒展开来近似损失。（嗯，可以掏出小本本算一算了）<br><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/bhRzIL1Ek8GP*cA*Bielq53rKRXvnkm*SHGcoRkty219GHi*YfZAf5REh*7IMaEZsoZ6LR5hLYjaKI6j7c96bQ!!/b&bo=7gOnAgAAAAADB2o!&rf=viewer_4" alt="img"><br><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUVmJW7kUhKVJUj4m3kV7dnqv1H7fU*.EQOgP4XAnXPEOrSm7*kpqvecZ1BlILps4fWmB*GBLetSGLawQDI8k3ak!/b&bo=7QOyAgAAAAADF2w!&rf=viewer_4" alt="img"><br>于是，得到了新的目标函数Obj = 损失函数+正则项+常数项。</p>
+<p>Why spending s much efforts to derive the objective, why not just grow trees …<br>为什么花这么多时间去分解目标函数，而不是单纯使树增长</p>
+<ul>
+<li>Theoretical benefit: know what we are learning, convergence<br>理论优势：能知道模型在学什么</li>
+<li>Engineering benefit: recall the elements of supervised learning<br>工程优势：回顾一下监督学习的元素<ul>
+<li>gi and hi comes from definition of loss function<br>gi和hi由损失函数的定义而来</li>
+<li>The learning of function only depend on the objective via gi and hi<br>需要学习的函数只取决于gi和hi</li>
+<li>Think of how you can separate modules of your code when you are asked to implement boosted tree for both square loss and logistic loss</li>
+</ul>
+</li>
+</ul>
+<h4 id="-2"><a href="#-2" class="headerlink" title=""></a></h4><h4 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h4><h3 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h3><h4 id="原始函数"><a href="#原始函数" class="headerlink" title="原始函数"></a>原始函数</h4><p>Before running XGBoost, we must set three types of parameters: general parameters, booster parameters and task parameters.</p>
+<ul>
+<li>General parameters relate to which booster we are using to do boosting, commonly tree or linear model</li>
+<li>Booster parameters depend on which booster you have chosen</li>
+<li>Learning task parameters decide on the learning scenario. For example, regression tasks may use different parameters with ranking tasks.</li>
+<li>Command line parameters relate to behavior of CLI version of XGBoost.<br>具体参数详见<a href="https://xgboost.readthedocs.io/en/latest/parameter.html" target="_blank" rel="noopener">XGBoost官方文档</a>。</li>
+</ul>
+<h4 id="Python-API"><a href="#Python-API" class="headerlink" title="Python API"></a>Python API</h4><p><a href="https://xgboost.readthedocs.io/en/latest/python/python_api.html" target="_blank" rel="noopener">Python API官方文档</a><br>括号内为 sklearn 参数。</p>
+<h5 id="通用参数"><a href="#通用参数" class="headerlink" title="通用参数"></a>通用参数</h5><ul>
+<li>booster：基学习器类型，gbtree，gblinear 或 dart（增加了 Dropout） ，gbtree 和 dart 使用基于树的模型，而 gblinear 使用线性模型</li>
+<li>silent：使用 0 会打印更多信息</li>
+<li>nthread：运行时线程数</li>
+</ul>
+<h5 id="Booster-参数"><a href="#Booster-参数" class="headerlink" title="Booster 参数"></a>Booster 参数</h5><p>树模型Tree booster</p>
+<ul>
+<li>eta（learning_rate）：更新过程中用到的收缩步长，[0, 1]。</li>
+<li>gamma：在节点分裂时，只有在分裂后损失函数的值下降了，才会分裂这个节点。Gamma 指定了节点分裂所需的最小损失函数下降值。这个参数值越大，算法越保守。</li>
+<li>max_depth：树的最大深度，这个值也是用来避免过拟合的</li>
+<li>min_child_weight：决定最小叶子节点样本权重和。当它的值较大时，可以避免模型学习到局部的特殊样本。但如果这个值过高，会导致欠拟合。</li>
+<li>max_delta_step：这参数限制每颗树权重改变的最大步长。如果是0意味着没有约束。如果是正值那么这个算法会更保守，通常不需要设置。</li>
+<li>subsample：这个参数控制用于每棵树随机采样的比例。减小这个参数的值算法会更加保守，避免过拟合。但是这个值设置的过小，它可能会导致欠拟合。</li>
+<li>colsample_bytree：用来控制每颗树随机采样的列数的占比。</li>
+<li>colsample_bylevel：用来控制的每一级的每一次分裂，对列数的采样的占比。</li>
+<li>lambda（reg_lambda）：L2 正则化项的权重系数，越大模型越保守。</li>
+<li>alpha（reg_alpha）：L1 正则化项的权重系数，越大模型越保守。</li>
+<li>tree_method：树生成算法,auto, exact, approx, hist, gpu_exact, gpu_hist</li>
+<li>scale_pos_weight：各类样本十分不平衡时，把这个参数设置为一个正数，可以使算法更快收敛。典型值是 sum(negative cases) / sum(positive cases)</li>
+</ul>
+<p>Dart 额外参数</p>
+<ul>
+<li>sample_type：采样算法</li>
+<li>normalize_type：标准化算法</li>
+<li>rate_drop：前置树的丢弃率，有多少比率的树不进入下一个迭代，[0, 1]</li>
+<li>one_drop：设置为 1 的话每次至少有一棵树被丢弃。</li>
+<li>skip_drop：跳过丢弃阶段的概率，[0, 1]，非零的 skip_drop 比 rate_drop 和 one_drop 有更高的优先级。</li>
+</ul>
+<p>线性模型</p>
+<ul>
+<li>lambda（reg_lambda）：L2 正则化项的权重系数，越大模型越保守。</li>
+<li>alpha（reg_alpha）：L1 正则化项的权重系数，越大模型越保守。</li>
+<li>lambda_bias（reg_lambda_bias）：L2 正则化项的偏置。</li>
+</ul>
+<h5 id="学习任务参数"><a href="#学习任务参数" class="headerlink" title="学习任务参数"></a>学习任务参数</h5><ul>
+<li>objective：定义需要被最小化的损失函数。</li>
+<li>base_score：初始化预测分数，全局偏置。</li>
+<li>eval_metric：对于有效数据的度量方法，取值范围取决于 objective。</li>
+<li>seed：随机数种子，相同的种子可以复现随机结果，用于调参。</li>
+</ul>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><p><a href="https://github.com/dmlc/xgboost/blob/master/demo/guide-python/sklearn_examples.py" target="_blank" rel="noopener">XGB-sklearn示例官方源码</a></p>
+<h3 id="和LGB的比较以及优点"><a href="#和LGB的比较以及优点" class="headerlink" title="和LGB的比较以及优点"></a>和LGB的比较以及优点</h3><h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p>陈天奇PPT<br>XGBoost: A Scalable Tree Boosting System原著论文<br><a href="http://codewithzhangyi.com/2018/06/01/XGBOOST%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" target="_blank" rel="noopener">CodewithZhangyi</a>（一个很优秀的小姐姐的博客）<br><a href="https://www.jianshu.com/p/0fe45d4e9542" target="_blank" rel="noopener">GBDT、XGBoost、LightGBM的使用及参数调优</a></p>
+
       
     </div>
 
@@ -361,7 +488,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-10 16:58:39" itemprop="dateModified" datetime="2020-03-10T16:58:39+08:00">2020-03-10</time>
+                <time title="Modified: 2020-03-15 20:48:23" itemprop="dateModified" datetime="2020-03-15T20:48:23+08:00">2020-03-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -426,7 +553,7 @@
 <li>preprocessing.OrdinalEncoder()</li>
 <li>preprocessing.OneHotEncoder()</li>
 </ul>
-<h5 id="Generating-polynomial-features-poly"><a href="#Generating-polynomial-features-poly" class="headerlink" title="Generating polynomial features poly"></a>Generating polynomial features poly</h5><ul>
+<h5 id="多项式特征Generating-polynomial-features-poly"><a href="#多项式特征Generating-polynomial-features-poly" class="headerlink" title="多项式特征Generating polynomial features poly"></a>多项式特征Generating polynomial features poly</h5><ul>
 <li><p>进行多项式完全交叉相乘：即X的特征从（X1, X2）转换为（1，X1， X2， X1^2， X1X2， X2^2)</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> PolynomialFeatures</span><br><span class="line">X = np.arange(<span class="number">6</span>).reshape(<span class="number">3</span>,<span class="number">2</span>)</span><br><span class="line">poly = PolynomialFeatures(<span class="number">2</span>) <span class="comment"># 转换为2阶</span></span><br><span class="line">poly.fit_transform(X)</span><br></pre></td></tr></table></figure>
 </li>
@@ -1084,7 +1211,7 @@ LeNet-5诞生于 1994 年，由Yann LeCun等人提出，是最早的卷积神经
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/10/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E6%9C%AC%E7%AE%97%E6%B3%951-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92-1/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/10/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E6%9C%AC%E7%AE%97%E6%B3%951-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -1098,7 +1225,7 @@ LeNet-5诞生于 1994 年，由Yann LeCun等人提出，是最早的卷积神经
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/02/10/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E6%9C%AC%E7%AE%97%E6%B3%951-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92-1/" class="post-title-link" itemprop="url">机器学习基本算法1-逻辑回归</a>
+            <a href="/2020/02/10/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E6%9C%AC%E7%AE%97%E6%B3%951-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/" class="post-title-link" itemprop="url">机器学习基本算法1-逻辑回归</a>
         </h1>
 
         <div class="post-meta">
