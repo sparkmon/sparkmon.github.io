@@ -63,7 +63,7 @@
 <meta property="og:image" content="http://m.qpic.cn/psc?/V137jDuM1f0sL3/bhRzIL1Ek8GP*cA*Bielq53rKRXvnkm*SHGcoRkty219GHi*YfZAf5REh*7IMaEZsoZ6LR5hLYjaKI6j7c96bQ!!/b&bo=7gOnAgAAAAADB2o!&rf=viewer_4">
 <meta property="og:image" content="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUVmJW7kUhKVJUj4m3kV7dnqv1H7fU*.EQOgP4XAnXPEOrSm7*kpqvecZ1BlILps4fWmB*GBLetSGLawQDI8k3ak!/b&bo=7QOyAgAAAAADF2w!&rf=viewer_4">
 <meta property="article:published_time" content="2020-03-12T04:15:56.000Z">
-<meta property="article:modified_time" content="2020-03-26T12:06:06.250Z">
+<meta property="article:modified_time" content="2020-03-26T12:26:54.114Z">
 <meta property="article:author" content="sparkmon">
 <meta property="article:tag" content="机器学习">
 <meta name="twitter:card" content="summary">
@@ -220,7 +220,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-26 20:06:06" itemprop="dateModified" datetime="2020-03-26T20:06:06+08:00">2020-03-26</time>
+                <time title="Modified: 2020-03-26 20:26:54" itemprop="dateModified" datetime="2020-03-26T20:26:54+08:00">2020-03-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -302,7 +302,13 @@
 <li>The loss + regularization objective pattern applies for regression tree learning (function learning)<br>损失函数+正则的目标函数模式适用于回归树的学习</li>
 <li>We want predictive and simple functions<br>我们需要泛化能力强又简单的模型（奥卡姆剃刀原则）</li>
 </ul>
-<p>来求解优化一下目标函数，感受一下算法的精华。<br>和一般Boosting方法一样，采用加性模型，并考虑平方差损失，引入泰勒展开来近似损失。（嗯，可以掏出小本本算一算了）<br><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/bhRzIL1Ek8GP*cA*Bielq53rKRXvnkm*SHGcoRkty219GHi*YfZAf5REh*7IMaEZsoZ6LR5hLYjaKI6j7c96bQ!!/b&bo=7gOnAgAAAAADB2o!&rf=viewer_4" alt="img"><br><img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUVmJW7kUhKVJUj4m3kV7dnqv1H7fU*.EQOgP4XAnXPEOrSm7*kpqvecZ1BlILps4fWmB*GBLetSGLawQDI8k3ak!/b&bo=7QOyAgAAAAADF2w!&rf=viewer_4" alt="img"><br>于是，得到了新的目标函数Obj = 损失函数+正则项+常数项。</p>
+<p>来求解优化一下目标函数，感受一下算法的精华。<br>和一般Boosting方法一样，采用加性模型，并考虑平方差损失，引入泰勒展开来近似损失。（嗯，可以掏出小本本算一算了）</p>
+<figure class="half">
+    <img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/bhRzIL1Ek8GP*cA*Bielq53rKRXvnkm*SHGcoRkty219GHi*YfZAf5REh*7IMaEZsoZ6LR5hLYjaKI6j7c96bQ!!/b&bo=7gOnAgAAAAADB2o!&rf=viewer_4" width="550"/>
+    <img src="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUVmJW7kUhKVJUj4m3kV7dnqv1H7fU*.EQOgP4XAnXPEOrSm7*kpqvecZ1BlILps4fWmB*GBLetSGLawQDI8k3ak!/b&bo=7QOyAgAAAAADF2w!&rf=viewer_4" width="550"/>
+</figure>
+
+<p>于是，得到了新的目标函数Obj = 损失函数+正则项+常数项。</p>
 <p>Why spending s much efforts to derive the objective, why not just grow trees …<br>为什么花这么多时间去分解目标函数，而不是单纯使树增长</p>
 <ul>
 <li>Theoretical benefit: know what we are learning, convergence<br>理论优势：能知道模型在学什么</li>
