@@ -369,7 +369,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-30 12:51:36" itemprop="dateModified" datetime="2020-03-30T12:51:36+08:00">2020-03-30</time>
+                <time title="Modified: 2020-07-20 10:55:41" itemprop="dateModified" datetime="2020-07-20T10:55:41+08:00">2020-07-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -520,7 +520,38 @@
 <li>seed：随机数种子，相同的种子可以复现随机结果，用于调参。</li>
 </ul>
 <h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><p><a href="https://github.com/dmlc/xgboost/blob/master/demo/guide-python/sklearn_examples.py" target="_blank" rel="noopener">XGB-sklearn示例官方源码</a></p>
-<h3 id="和LGB的比较以及优点"><a href="#和LGB的比较以及优点" class="headerlink" title="和LGB的比较以及优点"></a>和LGB的比较以及优点</h3><h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p>陈天奇PPT<br>XGBoost: A Scalable Tree Boosting System原著论文<br><a href="http://codewithzhangyi.com/2018/06/01/XGBOOST%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" target="_blank" rel="noopener">CodewithZhangyi</a>（一个很优秀的小姐姐的博客）<br><a href="https://www.jianshu.com/p/0fe45d4e9542" target="_blank" rel="noopener">GBDT、XGBoost、LightGBM的使用及参数调优</a></p>
+<h3 id="和GBDT的比较以及优点"><a href="#和GBDT的比较以及优点" class="headerlink" title="和GBDT的比较以及优点"></a>和GBDT的比较以及优点</h3><ol>
+<li>损失函数：GBDT是一阶，XGB是二阶泰勒展开</li>
+<li>XGB的损失函数可以自定义，具体参考 objective 这个参数</li>
+<li>XGB的目标函数进行了优化，有正则项，减少过拟合，控制模型复杂度</li>
+<li>预剪枝：预防过拟合<ul>
+<li>GBDT：分裂到负损失，分裂停止</li>
+<li>XGB：一直分裂到指定的最大深度（max_depth），然后回过头剪枝。如某个点之后不再正值，去除这个分裂。优点是，当一个负损失(-2)后存在一个正损失(+10)，(-2+10=8&gt;0)求和为正，保留这个分裂。</li>
+</ul>
+</li>
+<li>XGB有列抽样/column sample，借鉴随机森林，减少过拟合</li>
+<li>缺失值处理：XGB内置缺失值处理规则，用户提供一个和其它样本不同的值，作为一个参数传进去，作为缺失值取值。<br>XGB在不同节点遇到缺失值采取不同处理方法，并且学习未来遇到缺失值的情况。</li>
+<li>XGB内置交叉检验（CV），允许每轮boosting迭代中用交叉检验，以便获取最优 Boosting_n_round 迭代次数，可利用网格搜索grid search和交叉检验cross validation进行调参。<br>GBDT使用网格搜索。</li>
+<li>XGB运行速度快：data事先安排好以block形式存储，利于并行计算。在训练前，对数据排序，后面迭代中反复使用block结构。<br>关于并行，不是在tree粒度上的并行，并行在特征粒度上，对特征进行Importance计算排序，也是信息增益计算，找到最佳分割点。</li>
+<li>灵活性：XGB可以深度定制每一个子分类器</li>
+<li>易用性：XGB有各种语言封装</li>
+<li>扩展性：XGB提供了分布式训练，支持Hadoop实现</li>
+<li>共同优点：<ul>
+<li>当数据有噪音的时候，树Tree的算法抗噪能力更强</li>
+<li>树容易对缺失值进行处理</li>
+<li>树对分类变量Categorical feature更友好</li>
+</ul>
+</li>
+</ol>
+<h3 id="和LGB的比较"><a href="#和LGB的比较" class="headerlink" title="和LGB的比较"></a>和LGB的比较</h3><ol>
+<li>XGB用贪心算法排序累加，LGB用投票采样</li>
+<li>XGB 异常影响全局，LGB有筛选</li>
+<li>XGB速度慢，LGB改成轻量级</li>
+<li>XGB 的GPU版本比LGB快，LGB则不然</li>
+<li>分布式由XGB，很少用LGB</li>
+<li>XGBoost使用按层生长(level-wise)的决策树生长策略，不断优化到最大深度；LightGBM则采用带有深度限制的按叶子节点(leaf-wise)算法。在分裂次数相同的情况下，leaf-wise可以降低更多的误差，得到更好的精度。leaf-wise的缺点在于会产生较深的决策树，产生过拟合。</li>
+</ol>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p>陈天奇PPT<br>XGBoost: A Scalable Tree Boosting System原著论文<br><a href="http://codewithzhangyi.com/2018/06/01/XGBOOST%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" target="_blank" rel="noopener">CodewithZhangyi</a>（一个很优秀的小姐姐的博客）<br><a href="https://www.jianshu.com/p/0fe45d4e9542" target="_blank" rel="noopener">GBDT、XGBoost、LightGBM的使用及参数调优</a></p>
 
       
     </div>
@@ -607,7 +638,7 @@
 <li>SelectPercentile 保留最高得分百分比之几的特征</li>
 <li>对每个特征应用常见的单变量统计测试：假阳性率（false positive rate) SelectFpr，伪发现率（false discovery rate) SelectFdr ，或者族系误差（family wise error)SelectFwe。</li>
 <li>GenericUnivariateSelect 允许使用可配置方法来进行单变量特征选择。它允许超参数搜索评估器来选择最好的单变量特征。</li>
-<li>将得分函数作为输入，返回单变量的得分和p值（或者仅仅是SelectKBest和SelectPercentile 的分数）：<br>对于回归： f_regression，mutual_inf_regression<br>对于分类： chi2，f_classif，mutual_inf_classif<br>这在之前的<a href="https://sparkmon.github.io/2020/03/03/Python%20EDA%E5%92%8C%E5%8F%AF%E8%A7%86%E5%8C%96%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B/" target="_blank" rel="noopener">数据EDA</a>一文中有例子。</li>
+<li>将得分函数作为输入，返回单变量的得分和p值（或者仅仅是SelectKBest和SelectPercentile 的分数）：<br>对于回归： f_regression，mutual_inf_regression<br>对于分类： chi2，f_classif，mutual_inf_classif<br>这在之前的<a href="https://sparkmon.github.io/2020/03/03/Python%20EDA%E5%92%8C%E5%8F%AF%E8%A7%86%E5%8C%96%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B/">数据EDA</a>一文中有例子。</li>
 </ul>
 <h5 id="基于树模型的特征选择"><a href="#基于树模型的特征选择" class="headerlink" title="基于树模型的特征选择"></a>基于树模型的特征选择</h5><p>用鸢尾花数据集举例。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> ExtraTreesClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_iris</span><br><span class="line"><span class="keyword">from</span> sklearn.feature_selection <span class="keyword">import</span> SelectFromModel</span><br><span class="line">iris = load_iris()</span><br><span class="line">X,y = iris.data, iris.target</span><br><span class="line">X.shape</span><br></pre></td></tr></table></figure>
@@ -884,7 +915,7 @@
 <blockquote>
 <p><a href="https://github.com/scikit-learn/scikit-learn/blob/b194674c4/sklearn/feature_selection/_univariate_selection.py#L451" target="_blank" rel="noopener">SelectKBest的官方源码</a></p>
 </blockquote>
-<p>输出为<code>Index([&#39;RM&#39;, &#39;PTRATIO&#39;, &#39;LSTAT&#39;], dtype=&#39;object&#39;)</code>。此时，可以单独对这几个变量做特征，具体做法因项目和实际需要而定，这里不做具体展开。其他用sklearn进行数据处理的方法可参考：<a href="https://sparkmon.github.io/2020/03/09/%E5%85%B3%E4%BA%8E%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9%E5%92%8C%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86/" target="_blank" rel="noopener">sklearn进行特征选择和数据预处理</a>。</p>
+<p>输出为<code>Index([&#39;RM&#39;, &#39;PTRATIO&#39;, &#39;LSTAT&#39;], dtype=&#39;object&#39;)</code>。此时，可以单独对这几个变量做特征，具体做法因项目和实际需要而定，这里不做具体展开。其他用sklearn进行数据处理的方法可参考：<a href="https://sparkmon.github.io/2020/03/09/%E5%85%B3%E4%BA%8E%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9%E5%92%8C%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86/">sklearn进行特征选择和数据预处理</a>。</p>
 <h4 id="模型应用"><a href="#模型应用" class="headerlink" title="模型应用"></a>模型应用</h4><p>关于如何对特征进行整合处理，其实有很多做法，例如分箱、独热编码、归一化等等。在这里，只简单套用一下线性回归和随机森林两个模型，跑出结果。</p>
 <h5 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 分出数据和标签</span></span><br><span class="line">X = df.drop([<span class="string">'MEDV'</span>], axis=<span class="number">1</span>).values <span class="comment"># 数据</span></span><br><span class="line">y = df[<span class="string">'MEDV'</span>].values <span class="comment"># 标签</span></span><br><span class="line"><span class="comment"># 调用模型</span></span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LinearRegression</span><br><span class="line">X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=<span class="number">0.2</span>,random_state=<span class="number">888</span>)</span><br><span class="line"><span class="comment"># 确认训练集和数据集形状</span></span><br><span class="line">X_train.shape</span><br><span class="line">y_train.shape</span><br><span class="line"><span class="comment"># 实例化模型</span></span><br><span class="line">lin_reg = LinearRegression()</span><br><span class="line"><span class="comment"># 训练</span></span><br><span class="line">lin_reg.fit(X_train,y_train)</span><br><span class="line"><span class="comment"># 查看分数</span></span><br><span class="line">lin_reg.score(X,y) <span class="comment"># 0.738792</span></span><br></pre></td></tr></table></figure>
 <p>此时模型已经完成了，可以用<code>lin_reg.coef_</code>查看估计的线性方程系数。也可以用测试集看效果。</p>

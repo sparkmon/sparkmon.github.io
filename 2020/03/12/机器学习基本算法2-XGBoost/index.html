@@ -64,7 +64,7 @@
 <meta property="og:image" content="http://m.qpic.cn/psc?/V137jDuM1f0sL3/bhRzIL1Ek8GP*cA*Bielq53rKRXvnkm*SHGcoRkty219GHi*YfZAf5REh*7IMaEZsoZ6LR5hLYjaKI6j7c96bQ!!/b&bo=7gOnAgAAAAADB2o!&rf=viewer_4">
 <meta property="og:image" content="http://m.qpic.cn/psc?/V137jDuM1f0sL3/BmgsQzVq*GNja8O.UNZvUVmJW7kUhKVJUj4m3kV7dnqv1H7fU*.EQOgP4XAnXPEOrSm7*kpqvecZ1BlILps4fWmB*GBLetSGLawQDI8k3ak!/b&bo=7QOyAgAAAAADF2w!&rf=viewer_4">
 <meta property="article:published_time" content="2020-03-12T04:15:56.000Z">
-<meta property="article:modified_time" content="2020-03-30T04:51:36.871Z">
+<meta property="article:modified_time" content="2020-07-20T02:55:41.657Z">
 <meta property="article:author" content="sparkmon">
 <meta property="article:tag" content="机器学习">
 <meta name="twitter:card" content="summary">
@@ -221,7 +221,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-30 12:51:36" itemprop="dateModified" datetime="2020-03-30T12:51:36+08:00">2020-03-30</time>
+                <time title="Modified: 2020-07-20 10:55:41" itemprop="dateModified" datetime="2020-07-20T10:55:41+08:00">2020-07-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -372,7 +372,38 @@
 <li>seed：随机数种子，相同的种子可以复现随机结果，用于调参。</li>
 </ul>
 <h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><p><a href="https://github.com/dmlc/xgboost/blob/master/demo/guide-python/sklearn_examples.py" target="_blank" rel="noopener">XGB-sklearn示例官方源码</a></p>
-<h3 id="和LGB的比较以及优点"><a href="#和LGB的比较以及优点" class="headerlink" title="和LGB的比较以及优点"></a>和LGB的比较以及优点</h3><h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p>陈天奇PPT<br>XGBoost: A Scalable Tree Boosting System原著论文<br><a href="http://codewithzhangyi.com/2018/06/01/XGBOOST%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" target="_blank" rel="noopener">CodewithZhangyi</a>（一个很优秀的小姐姐的博客）<br><a href="https://www.jianshu.com/p/0fe45d4e9542" target="_blank" rel="noopener">GBDT、XGBoost、LightGBM的使用及参数调优</a></p>
+<h3 id="和GBDT的比较以及优点"><a href="#和GBDT的比较以及优点" class="headerlink" title="和GBDT的比较以及优点"></a>和GBDT的比较以及优点</h3><ol>
+<li>损失函数：GBDT是一阶，XGB是二阶泰勒展开</li>
+<li>XGB的损失函数可以自定义，具体参考 objective 这个参数</li>
+<li>XGB的目标函数进行了优化，有正则项，减少过拟合，控制模型复杂度</li>
+<li>预剪枝：预防过拟合<ul>
+<li>GBDT：分裂到负损失，分裂停止</li>
+<li>XGB：一直分裂到指定的最大深度（max_depth），然后回过头剪枝。如某个点之后不再正值，去除这个分裂。优点是，当一个负损失(-2)后存在一个正损失(+10)，(-2+10=8&gt;0)求和为正，保留这个分裂。</li>
+</ul>
+</li>
+<li>XGB有列抽样/column sample，借鉴随机森林，减少过拟合</li>
+<li>缺失值处理：XGB内置缺失值处理规则，用户提供一个和其它样本不同的值，作为一个参数传进去，作为缺失值取值。<br>XGB在不同节点遇到缺失值采取不同处理方法，并且学习未来遇到缺失值的情况。</li>
+<li>XGB内置交叉检验（CV），允许每轮boosting迭代中用交叉检验，以便获取最优 Boosting_n_round 迭代次数，可利用网格搜索grid search和交叉检验cross validation进行调参。<br>GBDT使用网格搜索。</li>
+<li>XGB运行速度快：data事先安排好以block形式存储，利于并行计算。在训练前，对数据排序，后面迭代中反复使用block结构。<br>关于并行，不是在tree粒度上的并行，并行在特征粒度上，对特征进行Importance计算排序，也是信息增益计算，找到最佳分割点。</li>
+<li>灵活性：XGB可以深度定制每一个子分类器</li>
+<li>易用性：XGB有各种语言封装</li>
+<li>扩展性：XGB提供了分布式训练，支持Hadoop实现</li>
+<li>共同优点：<ul>
+<li>当数据有噪音的时候，树Tree的算法抗噪能力更强</li>
+<li>树容易对缺失值进行处理</li>
+<li>树对分类变量Categorical feature更友好</li>
+</ul>
+</li>
+</ol>
+<h3 id="和LGB的比较"><a href="#和LGB的比较" class="headerlink" title="和LGB的比较"></a>和LGB的比较</h3><ol>
+<li>XGB用贪心算法排序累加，LGB用投票采样</li>
+<li>XGB 异常影响全局，LGB有筛选</li>
+<li>XGB速度慢，LGB改成轻量级</li>
+<li>XGB 的GPU版本比LGB快，LGB则不然</li>
+<li>分布式由XGB，很少用LGB</li>
+<li>XGBoost使用按层生长(level-wise)的决策树生长策略，不断优化到最大深度；LightGBM则采用带有深度限制的按叶子节点(leaf-wise)算法。在分裂次数相同的情况下，leaf-wise可以降低更多的误差，得到更好的精度。leaf-wise的缺点在于会产生较深的决策树，产生过拟合。</li>
+</ol>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p>陈天奇PPT<br>XGBoost: A Scalable Tree Boosting System原著论文<br><a href="http://codewithzhangyi.com/2018/06/01/XGBOOST%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" target="_blank" rel="noopener">CodewithZhangyi</a>（一个很优秀的小姐姐的博客）<br><a href="https://www.jianshu.com/p/0fe45d4e9542" target="_blank" rel="noopener">GBDT、XGBoost、LightGBM的使用及参数调优</a></p>
 
     </div>
 
@@ -457,7 +488,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法简述"><span class="nav-number">2.</span> <span class="nav-text">算法简述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Review-of-key-concepts-of-supervised-learning-回顾监督学习的关键概念"><span class="nav-number">2.1.</span> <span class="nav-text">Review of key concepts of supervised learning | 回顾监督学习的关键概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Regression-Tree-and-Ensemble-What-are-we-Learning"><span class="nav-number">2.2.</span> <span class="nav-text">Regression Tree and Ensemble (What are we Learning)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#关于树模型集成方法Tree-Ensemble-methods："><span class="nav-number">2.2.1.</span> <span class="nav-text">关于树模型集成方法Tree Ensemble methods：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Gradient-Boosting-How-do-we-Learn"><span class="nav-number">2.3.</span> <span class="nav-text">Gradient Boosting (How do we Learn)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Summary"><span class="nav-number">2.4.</span> <span class="nav-text">Summary</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数说明"><span class="nav-number">3.</span> <span class="nav-text">参数说明</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#原始函数"><span class="nav-number">3.1.</span> <span class="nav-text">原始函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Python-API"><span class="nav-number">3.2.</span> <span class="nav-text">Python API</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#通用参数"><span class="nav-number">3.2.1.</span> <span class="nav-text">通用参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Booster-参数"><span class="nav-number">3.2.2.</span> <span class="nav-text">Booster 参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#学习任务参数"><span class="nav-number">3.2.3.</span> <span class="nav-text">学习任务参数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码实现"><span class="nav-number">4.</span> <span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#和LGB的比较以及优点"><span class="nav-number">5.</span> <span class="nav-text">和LGB的比较以及优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">6.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法简述"><span class="nav-number">2.</span> <span class="nav-text">算法简述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Review-of-key-concepts-of-supervised-learning-回顾监督学习的关键概念"><span class="nav-number">2.1.</span> <span class="nav-text">Review of key concepts of supervised learning | 回顾监督学习的关键概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Regression-Tree-and-Ensemble-What-are-we-Learning"><span class="nav-number">2.2.</span> <span class="nav-text">Regression Tree and Ensemble (What are we Learning)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#关于树模型集成方法Tree-Ensemble-methods："><span class="nav-number">2.2.1.</span> <span class="nav-text">关于树模型集成方法Tree Ensemble methods：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Gradient-Boosting-How-do-we-Learn"><span class="nav-number">2.3.</span> <span class="nav-text">Gradient Boosting (How do we Learn)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Summary"><span class="nav-number">2.4.</span> <span class="nav-text">Summary</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数说明"><span class="nav-number">3.</span> <span class="nav-text">参数说明</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#原始函数"><span class="nav-number">3.1.</span> <span class="nav-text">原始函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Python-API"><span class="nav-number">3.2.</span> <span class="nav-text">Python API</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#通用参数"><span class="nav-number">3.2.1.</span> <span class="nav-text">通用参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Booster-参数"><span class="nav-number">3.2.2.</span> <span class="nav-text">Booster 参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#学习任务参数"><span class="nav-number">3.2.3.</span> <span class="nav-text">学习任务参数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码实现"><span class="nav-number">4.</span> <span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#和GBDT的比较以及优点"><span class="nav-number">5.</span> <span class="nav-text">和GBDT的比较以及优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#和LGB的比较"><span class="nav-number">6.</span> <span class="nav-text">和LGB的比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">7.</span> <span class="nav-text">Reference</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
